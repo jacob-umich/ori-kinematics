@@ -10,3 +10,6 @@ relation to course topics
 - uses object-oriented programming paradigm
 - uses performant software packages to get the best performance
 
+Generate a mesh using the algorithm provided in Zhang and Kawaguchi 2021
+
+![mesh_gen](mesh_gen.png)
