@@ -12,4 +12,6 @@ relation to course topics
 
 Generate a mesh using the algorithm provided in Zhang and Kawaguchi 2021
 
-![mesh_gen](mesh_gen.png)
+![mesh_gen](Documentation/mesh_gen.png)
+
+more resources on kinematic simulation: [link](https://siggraphcontact.github.io/) 
