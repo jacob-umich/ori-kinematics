@@ -14,6 +14,7 @@ class Edge {
 class Face {
     -nodes
     -edges
+    -outward_normal
     -id
 }
 class Body {
