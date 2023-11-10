@@ -1,0 +1,68 @@
+@startuml
+scale 1200 width
+class Node {
+    ~double * position
+    ~int id
+    ~int * dof
+    ~int * neighbors
+    +Constructor()
+    +Deconstructor()
+    +void getPos(double * positionOutput)
+    ~Edge * add()
+    ~Edge * sub()
+    ~void move(double * newPosition)
+}
+class Edge {
+    ~int id
+    ~Node ** nodes
+    ~int * dof
+    +Constructor()
+    +Deconstructor()
+    ~double * makeConstraint(int nDof)
+}
+class Face {
+    ~Node ** nodes
+    ~double * outwardNormal
+    -int id
+    +Constructor()
+    +Deconstructor()
+}
+class Body {
+    ~Node ** nodes
+    ~int * dof
+    -Edge ** edges
+    -Face ** faces
+    -int id
+    +Constructor()
+    +Deconstructor()
+}
+class Structure {
+    -Node ** nodes
+    -Edge ** edges
+    -Face ** faces
+    -Body ** bodies
+    -int id
+    -double ** targetVelocities
+    +Constructor(file * inputFile)
+    +Deconstructor()
+    +void simulateKinematics(double ** targetVelocities)
+    +void getSimulationStep(int i)
+    ~void defineEdges()
+    ~void connectBodies()
+    ~void defineDOF()
+    ~void generateConstraints(double * constraintOutput)
+}
+
+Node<--*Edge
+Edge<--*Face
+Face<--*Body
+Node<--*Body
+Node<--*Face
+Edge<--*Body
+
+
+Node<--*Structure
+Edge<--*Structure
+Face<--*Structure
+Body <--*Structure
+@enduml
