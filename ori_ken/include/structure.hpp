@@ -5,8 +5,10 @@ namespace Okin{
 
         protected:
             char * name;
+            int id;
         private:
             size_t n_bodies;
-
+        public:
+            
     };
 }
