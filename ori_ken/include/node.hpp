@@ -1,15 +1,18 @@
 #pragma once
 
 namespace Okin{
-    class node{
+    class Node{
 
         protected:
             char * name;
-            double * position;
-            node * neighbors;
+            double * _position;
+            Node * neighbors;
             int * fixities;
         private:
             size_t n_bodies;
+        public:
+            Node(double * position);
+            Node();
 
     };
 }
