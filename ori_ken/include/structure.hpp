@@ -9,6 +9,8 @@ namespace std{
         protected:
             char * name;
             int id;
+            Okin::Node * _nodes;
+            int _nNodes;
         private:
             size_t n_bodies;
             void genBodies();
@@ -16,7 +18,7 @@ namespace std{
             void genEdge();
         public:
             Structure(char * input);
-
+            void printNodes();
             //generate constraints
             void generateConstraints(vector<vector<double>> &nodes,
                 vector<vector<int>> &edges, size_t nnodes,size_t nedges,

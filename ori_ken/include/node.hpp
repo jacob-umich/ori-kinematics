@@ -13,6 +13,7 @@ namespace Okin{
         public:
             Node(double * position);
             Node();
+            void printPos();
 
     };
 }
