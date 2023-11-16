@@ -3,15 +3,19 @@
 #include "node.hpp"
 #include "edge.hpp"
 #include <regex>
+#include <string>
 
 namespace std {
     Structure::Structure(char * input){
         regex pattern {"[0-9.]+"};
-        cmatch m;
-        bool value = regex_search(input, m, pattern);
+        // char * test = end(input);
+        auto value = cregex_iterator(input,input+10,pattern);   
+        auto valueEnd = cregex_iterator();   
         double * position = new double[3]();
-        for (int i=0;i<3;i++){
-            position[i]=atof(m.iterator[i]);
+        int count = 0;
+        for (cregex_iterator i=value;i!=valueEnd;i++){
+            position[count]=stod((*i).str());
+            count++;
         }
     }
 
