@@ -11,9 +11,13 @@ namespace Okin{
         private:
             size_t n_bodies;
         public:
+<<<<<<< HEAD
             Node(double * position);
             Node();
             void printPos();
+=======
+            
+>>>>>>> cmake
 
     };
 }
