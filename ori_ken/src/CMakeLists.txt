@@ -1,4 +1,6 @@
 add_library(ori_ken
+  node.cpp
+  structure.cpp
 )
 
 target_include_directories(ori_ken PUBLIC

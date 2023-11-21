@@ -1,13 +1,9 @@
 #include "ori_ken.hpp"
 
-namespace std {
+int main(){
+    char in[] = "[{pos:[0,0,5]}]";
+    Okin::Structure cube {in};
 
-    int main(){
-        Structure cube {"[{pos:[0,0,5]}]"};
-
-        cube.printNodes();
-        return 1;
-    }
-
-
+    // cube.printNodes();
+    return 0;
 }

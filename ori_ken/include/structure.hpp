@@ -1,15 +1,17 @@
 #include <iostream>
 #include <vector>
+#include "node.hpp"
 
 #pragma once
 
-namespace std{
+using std::vector;
+namespace Okin{
     class Structure{
 
         protected:
             char * name;
             int id;
-            Okin::Node * _nodes;
+            Node * _nodes;
             int _nNodes;
         private:
             size_t n_bodies;
@@ -25,4 +27,6 @@ namespace std{
                 vector<vector<int>> &const_nodes,vector<double> &C, vector<int> &colIdx, vector<int> &rowIdx);
 
     };
+
+
 }

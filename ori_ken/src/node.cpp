@@ -1,14 +1,14 @@
 #include "ori_ken.hpp"
 #include <iostream>
-
+#include <vector>
+using std::vector;
 namespace Okin
 {
-    Node::Node(double * position){
+    Node::Node(vector<double>& position){
         _position=position;
     }
     Node::Node(){
-        double def_array[]{0.0, 0.0 ,0.0};
-        _position=def_array;
+        _position=vector<double>{3,0.0};
     }
 
     void Node::printPos(){
