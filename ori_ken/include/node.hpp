@@ -10,6 +10,8 @@ namespace Okin{
             int * fixities;
         private:
             size_t n_bodies;
+        public:
+            
 
     };
 }
