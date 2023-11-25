@@ -34,6 +34,8 @@ namespace std
 			    else C_vals[iedge*6+icoord*2+1]=nodes[nodeIdx[1]][icoord]-nodes[nodeIdx[0]][icoord];
 				colIdx[iedge*6+icoord*2+1] = iedge;
 				rowIdx[iedge*6+icoord*2+1] = nodeIdx[1]*3+icoord;
+                // Dense format
+                C[iedge*6+icoord*2]=nodes[nodeIdx[0]][icoord]-nodes[nodeIdx[1]][icoord];
 			}
 	    }
 
