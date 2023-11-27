@@ -1,6 +1,7 @@
 add_library(ori_ken
   node.cpp
   structure.cpp
+  jsonParser.cpp
 )
 
 target_include_directories(ori_ken PUBLIC

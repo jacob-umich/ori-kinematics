@@ -13,7 +13,6 @@ string(CONCAT GNU_WARNING_FLAGS
     " -Wold-style-cast"
     " -Wshadow"
     " -Wundef"
-    " -Wunused"
     " -Wvla"
     " -Wzero-as-null-pointer-constant"
     " -pedantic"
