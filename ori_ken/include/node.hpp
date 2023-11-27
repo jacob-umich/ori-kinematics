@@ -5,17 +5,16 @@ using std::vector;
 namespace Okin{
     class Node{
 
-        protected:
-            char * name;
-            vector<double> _position;
-            Node * neighbors;
-            int * fixities;
-        private:
-            size_t n_bodies;
         public:
+            int _id;
+            vector<Node*> neighbors;
+            vector<int> _fixities;
+            vector<double> _position;
             Node (JSONObject);
             Node();
             void printPos();
+            void printFix();
+            vector<double> operator-(Node);
             // double toDPos(JSONNode*);
 
     };
