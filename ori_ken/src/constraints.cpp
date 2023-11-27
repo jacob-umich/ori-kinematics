@@ -2,7 +2,7 @@
 
 namespace std
 {
-    void structure::generateConstraints(vector<vector<double>> &nodes,
+    void Structure::generateConstraints(vector<vector<double>> &nodes,
      vector<vector<int>> &edges, size_t nnodes,size_t nedges,
      vector<vector<int>> &const_nodes,vector<double> &C_vals, vector<int> &colIdx, vector<int> &rowIdx){
 	    // rigid-body origami-kinematics assumes all edges are rigid

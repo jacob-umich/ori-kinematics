@@ -1,15 +1,20 @@
 #pragma once
-
+#include <vector>
+using std::vector;
 namespace Okin{
-    class node{
+    class Node{
 
         protected:
             char * name;
-            double * position;
-            node * neighbors;
+            vector<double> _position;
+            Node * neighbors;
             int * fixities;
         private:
             size_t n_bodies;
+        public:
+            Node(vector<double>& position);
+            Node();
+            void printPos();
 
     };
 }
