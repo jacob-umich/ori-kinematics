@@ -16,7 +16,7 @@ bool to_bool(std::string str) {
     return b;
 }
 
-auto JSONNode::returnObject(){
+JSONObject JSONNode::returnObject(){
     if(type==Type::OBJECT){
         return *values.object;
     }
@@ -28,7 +28,7 @@ auto JSONNode::setObject(JSONObject *obj){
 }
 
 
-auto JSONNode::returnList(){
+JSONList JSONNode::returnList(){
     if(type==Type::LIST){
         return *values.list;
     }
@@ -40,7 +40,7 @@ auto JSONNode::setList(JSONList *list){
 }
 
 
-auto JSONNode::returnString(){
+std::string JSONNode::returnString(){
     if(type==Type::STRING){
         return *values.s;
     }
@@ -52,7 +52,7 @@ auto JSONNode::setString(std::string *s){
 }
 
 
-auto JSONNode::returnNumber(){
+double JSONNode::returnNumber(){
     if(type==Type::NUMBER){
         return values.dValue;
     }

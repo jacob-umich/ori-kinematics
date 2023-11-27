@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "jsonParser.hpp"
 using std::vector;
 namespace Okin{
     class Node{
@@ -12,9 +13,10 @@ namespace Okin{
         private:
             size_t n_bodies;
         public:
-            Node(vector<double>& position);
+            Node (JSONObject);
             Node();
             void printPos();
+            // double toDPos(JSONNode*);
 
     };
 }

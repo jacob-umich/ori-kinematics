@@ -6,6 +6,8 @@
 /* implementation from 
 https://kishoreganesh.com/post/writing-a-json-parser-in-cplusplus/*/
 
+
+#pragma once
 class JSONNode;
 using JSONObject = std::map<std::string, std::shared_ptr<JSONNode>>;
 using JSONList = std::vector<std::shared_ptr<JSONNode>>;
@@ -23,10 +25,10 @@ class JSONNode {
     Type type;
     public:
 
-        auto returnObject();
-        auto returnList();
-        auto returnString();
-        auto returnNumber();
+        JSONObject returnObject();
+        JSONList returnList();
+        std::string returnString();
+        double returnNumber();
         auto returnBool();
         auto setObject(JSONObject *);
         auto setList(JSONList*);
@@ -122,11 +124,11 @@ public:
 };
 
 class JSONParser {
-  std::shared_ptr<JSONNode> root;
   std::unique_ptr<JSONNode> current;
   Tokenizer tokenizer;
 
 public:
+  std::shared_ptr<JSONNode> root;
   JSONParser(const std::string filename) : tokenizer(filename) {}
 
   void parse();

@@ -1,13 +1,16 @@
+#include "jsonParser.hpp"
+#include "node.hpp"
+#pragma once
 namespace Okin{
     class Body{
-
+        using nodeList = std::vector<Node*>;
         protected:
             char * name;
-            double * position;
-            Body * neighbors;
-            int * fixities;
+            int _id;
         private:
-            size_t n_bodies;
+            nodeList _nodes;
+        public:
+            Body(JSONObject);
 
     };
 }

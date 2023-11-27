@@ -1,25 +1,34 @@
 #include <iostream>
 #include <vector>
 #include "node.hpp"
+#include "body.hpp"
+#include "jsonParser.hpp"
 
 #pragma once
 
 using std::vector;
 namespace Okin{
     class Structure{
+        using bodyList = std::vector<Body*>;
+        using nodeList = std::vector<Node*>;
 
         protected:
             char * name;
             int id;
-            Node * _nodes;
+            nodeList _nodes;
+            bodyList _bodies;
             int _nNodes;
         private:
             size_t n_bodies;
+            JSONParser parser;
+            std::shared_ptr<JSONNode> root;
             void genBodies();
             void genNodes();
             void genEdge();
+
         public:
-            Structure(char * input);
+            Structure(std::string inputFile);
+            double idB;
             void printNodes();
             //generate constraints
             void generateConstraints(vector<vector<double>> &nodes,
