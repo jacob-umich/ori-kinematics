@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "node.hpp"
+#include "linAlg.hpp"
 
 #pragma once
 

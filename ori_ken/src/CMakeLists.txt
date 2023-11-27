@@ -1,6 +1,8 @@
 add_library(ori_ken
   node.cpp
   structure.cpp
+  linAlg.cpp
+  constraints.cpp
 )
 
 target_include_directories(ori_ken PUBLIC
