@@ -1,7 +1,8 @@
 #include "body.hpp"
+#include <iostream>
 
 double myDet(std::vector<std::vector<double>> input){
-    double ret = input[0][0]*(input[1][1]*input[2][2]-input[1][2]*input[2][1]);
+    double ret = input[0][0]*(input[1][1]*input[2][2]-input[1][2]*input[2][1])+input[0][1]*(input[1][2]*input[2][0]-input[1][0]*input[2][2])+input[0][2]*(input[1][0]*input[2][1]-input[1][1]*input[2][0]);
     return ret;
 }
 double myDot(std::vector<double>a, std::vector<double> b){
@@ -22,16 +23,17 @@ namespace Okin{
         size_t numMeshedNodes = 0;
         std::vector<Node*> nodeCopy=_nodes;
         std::vector<Node*> meshedNodes;
+        meshedNodes.reserve(numNodes);
         while (numMeshedNodes<numNodes){
             size_t numUnmeshedNodes = nodeCopy.size();
             for (size_t i=0;i<numUnmeshedNodes;i++){
                 Node *currentNode=nodeCopy[i];
                 if (numMeshedNodes>2){
                     for (size_t j=numMeshedNodes-1;j>1;j--){
-                        std::vector<double> a = (*meshedNodes[j])-(*currentNode);
-                        std::vector<double> b = (*meshedNodes[j-1])-(*currentNode);
-                        std::vector<double> c = (*meshedNodes[j-2])-(*currentNode);
-                        std::vector<std::vector<double>>matrix({a,b,c});
+                        std::vector<double>* a = (*meshedNodes[j])-(*currentNode);
+                        std::vector<double>* b = (*meshedNodes[j-1])-(*currentNode);
+                        std::vector<double>* c = (*meshedNodes[j-2])-(*currentNode);
+                        std::vector<std::vector<double>>matrix({*a,*b,*c});
                         double det = myDet(matrix);
                         if (det>0.001||det<-0.001){
                             for (size_t k=j-2; k<j+1;k++){
@@ -43,13 +45,16 @@ namespace Okin{
                             numMeshedNodes++;
                             break;
                         }
+                        delete(a);
+                        delete(b);
+                        delete(c);
                     }
 
                 }
                 if (numMeshedNodes==2){
-                    std::vector<double> a = (*meshedNodes[0])-(*currentNode);
-                    std::vector<double> b = (*meshedNodes[1])-(*currentNode);
-                    double dot = myDot(a,b);
+                    std::vector<double>* a = (*meshedNodes[0])-(*currentNode);
+                    std::vector<double>* b = (*meshedNodes[1])-(*currentNode);
+                    double dot = myDot(*a,*b);
                     if (dot>1e-8||dot<-1e-8){
                         numMeshedNodes++;
                         currentNode->neighbors.push_back(meshedNodes[0]);
@@ -59,6 +64,8 @@ namespace Okin{
                         meshedNodes.push_back(currentNode);
                         nodeCopy.erase(nodeCopy.begin()+i);
                     }
+                    delete(a);
+                    delete(b);
 
                 }
                 if (numMeshedNodes<2){
@@ -71,6 +78,7 @@ namespace Okin{
                     nodeCopy.erase(nodeCopy.begin()+i);
 
                 }
+                std::cout<<"test"<<std::endl;
                 break;
             }
         }

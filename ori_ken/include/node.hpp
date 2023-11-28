@@ -14,7 +14,7 @@ namespace Okin{
             Node();
             void printPos();
             void printFix();
-            vector<double> operator-(Node);
+            vector<double> *operator-(Node);
             // double toDPos(JSONNode*);
 
     };
