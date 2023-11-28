@@ -1,4 +1,3 @@
-#include "ori_ken.hpp"
 #include "linAlg.hpp"
 using namespace std;
 int main(){
@@ -8,7 +7,7 @@ int main(){
     double A=[4,-1,7,2,-6,1];
     double Ainv = [m*n];
     double C [m*m];
-    linAlgClass->matPseudoInv(int m, int n, double *A, double *Ainv);
+    linAlgClass->matPseudoInv(m, n, A, Ainv);
     linAlgClass->matMult(m, m,n, A, Ainv, C);
     cout<<"Ainv: ";
     for (int i=0; i<n; i++){
