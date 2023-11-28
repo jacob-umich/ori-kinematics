@@ -1,11 +1,11 @@
 #include "body.hpp"
 #include <iostream>
 
-double myDet(std::vector<std::vector<double>> input){
+double myDet(std::vector<std::vector<double>>& input){
     double ret = input[0][0]*(input[1][1]*input[2][2]-input[1][2]*input[2][1])+input[0][1]*(input[1][2]*input[2][0]-input[1][0]*input[2][2])+input[0][2]*(input[1][0]*input[2][1]-input[1][1]*input[2][0]);
     return ret;
 }
-double myDot(std::vector<double>a, std::vector<double> b){
+double myDot(std::vector<double>& a, std::vector<double>& b){
     
     return a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
 }
@@ -32,9 +32,9 @@ namespace Okin{
                 if (numMeshedNodes>2){
                     for (size_t j=numMeshedNodes-1;j>1;j--){
                         currentNode->printPos();
-                        std::vector<double> a = *((*meshedNodes[j])-(*currentNode));
-                        std::vector<double> b = *((*meshedNodes[j-1])-(*currentNode));
-                        std::vector<double> c = *((*meshedNodes[j-2])-(*currentNode));
+                        std::vector<double> a = (*meshedNodes[j])-(*currentNode);
+                        std::vector<double> b = (*meshedNodes[j-1])-(*currentNode);
+                        std::vector<double> c = (*meshedNodes[j-2])-(*currentNode);
                         std::vector<std::vector<double>>*matrix = new std::vector<std::vector<double>>({a,b,c});
                         double det = myDet(*matrix);
                         if (det>0.001||det<-0.001){
@@ -52,8 +52,8 @@ namespace Okin{
 
                 }
                 if (numMeshedNodes==2){
-                    std::vector<double> a = *((*meshedNodes[0])-(*currentNode));
-                    std::vector<double> b = *((*meshedNodes[1])-(*currentNode));
+                    std::vector<double> a = (*meshedNodes[0])-(*currentNode);
+                    std::vector<double> b = (*meshedNodes[1])-(*currentNode);
                     double dot = myDot(a,b);
                     if (dot>1e-8||dot<-1e-8){
                         numMeshedNodes++;

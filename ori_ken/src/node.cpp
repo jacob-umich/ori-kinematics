@@ -35,10 +35,10 @@ namespace Okin
     void Node::printFix(){
         std::cout<< _fixities[0]<< _fixities[1]<< _fixities[2]<<std::endl;
     }
-    vector<double> * Node::operator-(Node input){
-        vector<double>* res = new vector<double>{0.0,0.0,0.0};
+    vector<double> Node::operator-(Node input){
+        vector<double>res{0.0,0.0,0.0};
         for (int i=0;i<3;i++){
-            (*res)[i]=_position[i]-input._position[i];
+            res[i]=_position[i]-input._position[i];
         }
         return res;
 
