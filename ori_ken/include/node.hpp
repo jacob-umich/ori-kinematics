@@ -7,6 +7,7 @@ namespace Okin{
 
         public:
             int _id;
+            vector<int> coordinates;
             vector<Node*> neighbors;
             vector<int> _fixities;
             vector<double> _position;
@@ -15,6 +16,7 @@ namespace Okin{
             void printPos();
             void printFix();
             vector<double> operator-(Node);
+            vector<double> operator<(Node);
             // double toDPos(JSONNode*);
 
     };

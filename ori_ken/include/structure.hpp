@@ -11,12 +11,14 @@ namespace Okin{
     class Structure{
         using bodyList = std::vector<Body*>;
         using nodeList = std::vector<Node*>;
+        using edgeList = std::vector<Edge*>;
 
         protected:
             char * name;
             int id;
             nodeList _nodes;
             bodyList _bodies;
+            edgeList _edges;
             int _nNodes;
         private:
             size_t n_bodies;

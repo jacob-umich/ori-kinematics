@@ -16,20 +16,40 @@ namespace Okin {
         for (size_t i=0;i<numBodies;i++){
             JSONObject jBody=jBodies[i]->returnObject();
             idB=jBody["id"]->returnNumber();
-            Body newBody(jBody);
-            _bodies.push_back(&newBody);
+            Body *newBody = new Body(jBody);
+            _bodies.push_back(newBody);
+            for (auto node=newBody->_nodes.begin();node!=newBody->_nodes.end();node++){
+                _nodes.push_back(*node);
+            }
+            for (auto edge=newBody->_edges.begin();edge!=newBody->_edges.end();edge++){
+                _edges.push_back(*edge);
+            }
+        }
+        int coordinate = 0;
+        JSONList jJoints =  jStructure["joints"]->returnList();
+        for (auto body=_bodies.begin();body!=_bodies.end();body++){
+            for (auto node=(*body)->_nodes.begin();node!=(*body)->_nodes.end();node++){
+                (*node)->coordinates.resize(3);
+                (*node)->coordinates[0]=coordinate++;
+                (*node)->coordinates[1]=coordinate++;
+                (*node)->coordinates[2]=coordinate++;
+            }
+            for (auto jObj=jJoints.begin();jObj!=jJoints.end();jObj++){
+                JSONList joinedBodies = jObj['bodies']->returnList();
+                if (int(joinedBodies[0]->returnNumber())==(*body)->_id){
+                    size_t nJoinBod=joinedBodies.size();
+                    JSONList joinedNodes = jObj['nodes']->returnList();
+                    for (size_t j=1;j<nJoinBod;j++){
+                            int nodeNumLocal = int(joinedNodes[j]->returnNumber())
+                            _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[]
+                        }
+                    }
+
+                }
         }
 
-        // std::regex pattern {"[0-9.]+"};
-        // // char * test = end(input);
-        // auto value = std::cregex_iterator(input,input+15,pattern);   
-        // auto valueEnd = std::cregex_iterator();   
-        // double * position = new double[3]();
-        // int count = 0;
-        // for (std::cregex_iterator i=value;i!=valueEnd;i++){
-        //     position[count]=stod((*i).str());
-        //     count++;
-        // }
+
+        }
     }
 
     // void Structure::printNodes(){

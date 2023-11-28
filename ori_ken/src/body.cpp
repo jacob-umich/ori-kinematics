@@ -1,5 +1,6 @@
 #include "body.hpp"
 #include <iostream>
+#include <algorithm>
 
 double myDet(std::vector<std::vector<double>>& input){
     double ret = input[0][0]*(input[1][1]*input[2][2]-input[1][2]*input[2][1])+input[0][1]*(input[1][2]*input[2][0]-input[1][0]*input[2][2])+input[0][2]*(input[1][0]*input[2][1]-input[1][1]*input[2][0]);
@@ -29,7 +30,11 @@ namespace Okin{
             size_t numUnmeshedNodes = nodeCopy.size();
             for (size_t i=0;i<numUnmeshedNodes;i++){
                 Node *currentNode=nodeCopy[i];
+                if(currentNode->_id==6){
+                    std::cout<<"here";
+                }
                 if (numMeshedNodes>2){
+                    bool reset_i=false;
                     for (size_t j=numMeshedNodes-1;j>1;j--){
                         currentNode->printPos();
                         std::vector<double> a = (*meshedNodes[j])-(*currentNode);
@@ -45,11 +50,14 @@ namespace Okin{
                             meshedNodes.push_back(currentNode);
                             nodeCopy.erase(nodeCopy.begin()+i);
                             numMeshedNodes++;
+                            reset_i=true;
                             break;
                         }
                         delete(matrix);
                     }
-
+                    if(reset_i){
+                        break;
+                    }
                 }
                 if (numMeshedNodes==2){
                     std::vector<double> a = (*meshedNodes[0])-(*currentNode);
@@ -79,6 +87,50 @@ namespace Okin{
 
                 }
                 std::cout<<"test"<<std::endl;
+            }
+        }
+        connectivityLocal.resize(numNodes);
+        for(size_t i=0;i<numNodes;i++){
+            Node * currentNode=_nodes[i];
+            connectivityLocal[currentNode->_id].resize(numNodes);
+            connectivityLocal[currentNode->_id]=std::vector<int>(numNodes,0);
+            for (auto j=currentNode->neighbors.begin(); j!=currentNode->neighbors.end();j++){
+                connectivityLocal[currentNode->_id][(*j)->_id]=1;
+            }
+        }
+
+        std::sort(_nodes.begin(),_nodes.end());
+
+        for (size_t i=0; i<numNodes;i++){
+            for (size_t j=i+1; j<numNodes;j++){
+                if (connectivityLocal[i][j]==1){
+                    Edge *newEdge=new Edge(_nodes[i],_nodes[j]);
+                    _edges.push_back(newEdge);
+                    nEdges++;
+                }
+            }
+        }
+
+    }
+
+    void Body::printConnectivity(){
+        std::cout<<"[";
+        size_t numNodes = _nodes.size();
+        for (size_t i=0;i<numNodes;i++){
+            if (i!=0){
+                std::cout<<" ";
+
+            }
+            for (size_t j=0;j<numNodes;j++){
+                std::cout<< connectivityLocal[i][j];
+                if (!(j==(numNodes-1) && i==(numNodes-1))){
+                    std::cout<<", ";
+                }else{
+                    std::cout<<" ]";
+                }
+                if(j==(numNodes-1)){
+                    std::cout<<"\n";
+                }
             }
         }
     }

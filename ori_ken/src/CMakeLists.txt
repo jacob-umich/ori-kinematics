@@ -1,4 +1,5 @@
 add_library(ori_ken
+  edge.cpp
   node.cpp
   structure.cpp
   jsonParser.cpp
