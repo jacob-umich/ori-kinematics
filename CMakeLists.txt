@@ -24,5 +24,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GNU_WARNING_FLAGS}")
 include(CTest)
 enable_testing()
 
-add_subdirectory(ori_ken)
+add_subdirectory(ori_ken/src)
+add_subdirectory(ori_ken/tests)
 add_subdirectory(example)

@@ -1,2 +1,0 @@
-/usr/bin/ar qc libori_ken.a CMakeFiles/ori_ken.dir/node.cpp.o CMakeFiles/ori_ken.dir/structure.cpp.o CMakeFiles/ori_ken.dir/linAlg.cpp.o
-/usr/bin/ranlib libori_ken.a
