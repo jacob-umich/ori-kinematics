@@ -10,6 +10,10 @@ double myDot(std::vector<double>& a, std::vector<double>& b){
     
     return a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
 }
+
+double toSize_t(std::shared_ptr<JSONNode> posNode){
+    return size_t(posNode->returnNumber());
+}
 namespace Okin{
     Body::Body(JSONObject jBody){
         _id=int(jBody["id"]->returnNumber());
@@ -109,6 +113,14 @@ namespace Okin{
                     nEdges++;
                 }
             }
+        }
+        JSONList jFaces =  jBody["faces"]->returnList();
+        for (auto face=jFaces.begin();face!=jFaces.end();face++){
+            JSONList tempList = (*face)->returnList();
+            vector<size_t> newFace;
+            newFace.resize(tempList.size());
+            std::transform(tempList.begin(),tempList.end(),newFace.begin(),toSize_t);
+            faces.push_back(newFace);
         }
 
     }

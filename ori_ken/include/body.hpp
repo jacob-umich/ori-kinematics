@@ -17,6 +17,7 @@ namespace Okin{
             Body(JSONObject);
             void printConnectivity();
             size_t nEdges;
+            vector<vector<size_t>> faces;
 
     };
 }
