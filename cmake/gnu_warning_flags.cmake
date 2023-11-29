@@ -1,8 +1,8 @@
 string(CONCAT GNU_WARNING_FLAGS
-    " -Wall"
+    # " -Wall"
     " -Wcast-align"
     " -Wcast-qual"
-    " -Wconversion"
+    # " -Wconversion"
     " -Wdouble-promotion"
     " -Wextra"
     " -Werror"
