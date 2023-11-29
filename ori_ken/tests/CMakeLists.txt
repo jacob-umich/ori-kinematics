@@ -10,3 +10,5 @@ if(LAPACK_FOUND AND BLAS_FOUND)
    set(lapackblas_libraries ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
    target_link_libraries(verification ${lapackblas_libraries})
 endif()
+
+add_test(verification verification)
