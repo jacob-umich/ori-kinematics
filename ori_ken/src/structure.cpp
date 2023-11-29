@@ -25,36 +25,31 @@ namespace Okin {
                 _edges.push_back(*edge);
             }
         }
-        int coordinate = 0;
+        coordinate = 0;
         JSONList jJoints =  jStructure["joints"]->returnList();
         for (auto body=_bodies.begin();body!=_bodies.end();body++){
             for (auto node=(*body)->_nodes.begin();node!=(*body)->_nodes.end();node++){
-                (*node)->coordinates.resize(3);
-                (*node)->coordinates[0]=coordinate++;
-                (*node)->coordinates[1]=coordinate++;
-                (*node)->coordinates[2]=coordinate++;
+                if (!(*node)->coordinated){
+                    (*node)->coordinates.resize(3);
+                    (*node)->coordinates[0]=coordinate++;
+                    (*node)->coordinates[1]=coordinate++;
+                    (*node)->coordinates[2]=coordinate++;
+                }
             }
             for (auto jObj=jJoints.begin();jObj!=jJoints.end();jObj++){
-                JSONList joinedBodies = jObj['bodies']->returnList();
+                JSONList joinedBodies = (*jObj)->returnObject()["bodies"]->returnList();
                 if (int(joinedBodies[0]->returnNumber())==(*body)->_id){
                     size_t nJoinBod=joinedBodies.size();
-                    JSONList joinedNodes = jObj['nodes']->returnList();
+                    JSONList joinedNodes = (*jObj)->returnObject()["nodes"]->returnList();
                     for (size_t j=1;j<nJoinBod;j++){
-                            int nodeNumLocal = int(joinedNodes[j]->returnNumber())
-                            _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[]
-                        }
+                        int nodeNumLocal = int(joinedNodes[j]->returnNumber());
+                        int nodeNumCopy = int(joinedNodes[0]->returnNumber());
+                        _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[nodeNumLocal]->coordinates =(*body)->_nodes[nodeNumCopy]->coordinates ;
+                        _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[nodeNumLocal]->coordinated = true;
+
                     }
-
                 }
-        }
-
-
+            }
         }
     }
-
-    // void Structure::printNodes(){
-    //     for (int i=0;i<_nNodes;i++){
-    //         _nodes[i].printPos();
-    //     }
-    // }
 }

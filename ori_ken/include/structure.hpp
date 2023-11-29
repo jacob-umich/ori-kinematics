@@ -24,18 +24,17 @@ namespace Okin{
             size_t n_bodies;
             JSONParser parser;
             std::shared_ptr<JSONNode> root;
-            void genBodies();
-            void genNodes();
-            void genEdge();
+            int coordinate;
+            vector<double> C_vals;
+            vector<size_t> rowIdx;
+            vector<size_t> colIdx;
 
         public:
             Structure(std::string inputFile);
             double idB;
             void printNodes();
             //generate constraints
-            void generateConstraints(vector<vector<double>> &nodes,
-                vector<vector<int>> &edges, size_t nnodes,size_t nedges,
-                vector<vector<int>> &const_nodes,vector<double> &C, vector<int> &colIdx, vector<int> &rowIdx);
+            void generateConstraints();
 
     };
 

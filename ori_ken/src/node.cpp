@@ -23,6 +23,7 @@ namespace Okin
             JSONList jFix = jNode["fix"]->returnList();
             std::transform(jFix.begin(),jFix.end(),_fixities.begin(),toI);
         }
+        coordinated=false;
 
     }
     Node::Node(){

@@ -7,6 +7,7 @@ namespace Okin{
 
         public:
             int _id;
+            bool coordinated;
             vector<int> coordinates;
             vector<Node*> neighbors;
             vector<int> _fixities;
