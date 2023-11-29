@@ -2,51 +2,51 @@
 #include <vector>
 using std::vector;
 
-namespace Okin{
-
-    void Structure::generateConstraints(){
-	    // rigid-body origami-kinematics assumes all edges are rigid
-        int nodeIdx[2];
+namespace Okin
+{
+    void Structure::genConstraints(){
         size_t nedges = _edges.size();
-	    // resize constraint matrix (C) to required size
-	    C_vals.resize(nedges*6);
-        colIdx.resize(nedges*6);
-        rowIdx.resize(nedges*6);
+        size_t nDOF = size_t(coordinate);
 
+        cnst_mat.resize(nedges*nDOF);
+        vector<vector<double>> full_cnst_mat;
+        full_cnst_mat.resize(nedges,vector<double>(nDOF,0.0));//initialize all to zero
         // C matrix is nedgesx3nnodes
         // x vector is 3nnodesX1
         // b vector is nedgesx1
-        // note C matrix is sparse, stored in COO format
-        // C_vals is nedgesX3nnodesX2 long
-        // loop through all edges
-	    for (size_t iedge=0; iedge<_edges.size(); iedge++){
-            nodeIdx[0] = _edges[iedge]->_nodes[0]->coordinates[0];
-			nodeIdx[1] = _edges[iedge]->_nodes[1]->coordinates[0];
-            // loop through cooridnates
-		    for(size_t icoord=0; icoord<3; icoord++){ 
-                //for first node on edge
-			    C_vals[iedge*6+icoord*2] = _edges[iedge]->start_pos[icoord]-_edges[iedge]->end_pos[icoord];
-				rowIdx[iedge*6+icoord*2] = iedge;
-				colIdx[iedge*6+icoord*2] = nodeIdx[0]+icoord;
-                //for second node on edge
-			    C_vals[iedge*6+icoord*2] = _edges[iedge]->end_pos[icoord]-_edges[iedge]->start_pos[icoord];
-				rowIdx[iedge*6+icoord*2] = iedge;
-				colIdx[iedge*6+icoord*2] = nodeIdx[1]+icoord;
-                // Dense format
-                // C[iedge*6+icoord*2]=nodes[nodeIdx[0]][icoord]-nodes[nodeIdx[1]][icoord];
-			}
+        int xIdxL,yIdxL,zIdxL,xIdxR,yIdxR,zIdxR;
+        for (size_t i=0; i<nedges; i++){
+            xIdxL = _edges[i]->_nodes[0]->coordinates[0];
+            yIdxL = _edges[i]->_nodes[0]->coordinates[1];
+            zIdxL = _edges[i]->_nodes[0]->coordinates[2];
+            xIdxR = _edges[i]->_nodes[1]->coordinates[0];
+            yIdxR = _edges[i]->_nodes[1]->coordinates[1];
+            zIdxR = _edges[i]->_nodes[1]->coordinates[2];
+            full_cnst_mat[i][xIdxL] = _edges[i]->start_pos[0]-_edges[i]->end_pos[0];
+            full_cnst_mat[i][xIdxR] = -(_edges[i]->start_pos[0]-_edges[i]->end_pos[0]);
+            full_cnst_mat[i][yIdxL] = _edges[i]->start_pos[1]-_edges[i]->end_pos[1];
+            full_cnst_mat[i][yIdxR] = -(_edges[i]->start_pos[1]-_edges[i]->end_pos[1]);
+            full_cnst_mat[i][zIdxL] = _edges[i]->start_pos[2]-_edges[i]->end_pos[2];
+            full_cnst_mat[i][zIdxR] = -(_edges[i]->start_pos[2]-_edges[i]->end_pos[2]);
         }
-        size_t nnz=_edges.size()*6;
-        size_t nConstriants=_edges.size();
+
+        // add boundary conditions
         for (auto node=_nodes.begin();node!=_nodes.end();node++){
             for(size_t i=0; i<3; i++){ 
                 if ((*node)->_fixities[i]==1) {
-                    C_vals.push_back(1);
-                    colIdx.push_back((*node)->coordinates[i]);
-                    rowIdx.push_back(nConstriants++);
-                    nnz++;
+                    vector<double>newRow(nDOF,0.0);
+                    newRow[(*node)->coordinates[i]]=1;
+                    full_cnst_mat.push_back(newRow);
                 }
             }
 	    }
+
+        // convert to column-major storage
+        for (size_t i=0; i<nDOF; i++){
+            for (size_t j=0; j<nedges; j++){
+                cnst_mat[i*nedges+j] = full_cnst_mat[j][i];
+            }
+        }
     }
+
 } // namespace Okin

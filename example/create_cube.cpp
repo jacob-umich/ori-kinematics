@@ -3,6 +3,6 @@
 int main(){
 
     Okin::Structure cube {"./cube.json"};
-    cube.generateConstraints();
+    cube.genConstraints();
     return 0;
 }

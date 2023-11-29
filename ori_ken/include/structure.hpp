@@ -26,16 +26,14 @@ namespace Okin{
             JSONParser parser;
             std::shared_ptr<JSONNode> root;
             int coordinate;
-            vector<double> C_vals;
-            vector<size_t> rowIdx;
-            vector<size_t> colIdx;
+            vector<double> cnst_mat;
 
         public:
             Structure(std::string inputFile);
             double idB;
             void printNodes();
             //generate constraints
-            void generateConstraints();
+            void genConstraints();
 
     };
 

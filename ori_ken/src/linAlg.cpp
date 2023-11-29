@@ -11,13 +11,20 @@ linAlg::linAlg(void) {}
 
 linAlg::~linAlg() {}
 #if BLAS_FOUND
-void linAlg::matPseudoInv(int m, int n, double *A, double *Ainv){
-    const int m=3,n=2;
 
-    double a[m * n] = {2, -1, 2,1,-2,1};
-    double u[m * m], s[std::min(n,m)],vt[n * n], v[n*n],suT[n*m];
+void linAlg::matPseudoInv(const int m, const int n, vector<double> &A_vec, vector<double> &Ainv_vec){
+
+    double *u = new double[m*m];
+    double *s= new double[std::min(n,m)];
+    double *vt = new double[n*n];
+    double *suT = new double[n*m];
+    double *A = new double[n*m];
+    double *Ainv = new double[n*m];
     const int aa = 1; //dgemm AB scaling
     const int c = 0; //dgemm C scaling
+    //assign values to A array
+    //for (int i=0; i<n*m; i++) A[i]=A_vec[i];
+    copy(A_vec.begin(), A_vec.end(), A);
 
     int lda = m, ldu = m, ldvt = n;
 
@@ -25,7 +32,7 @@ void linAlg::matPseudoInv(int m, int n, double *A, double *Ainv){
     // Ainv = V(s^-1)U^T where V=nxn s^-1=nxm U^T=mxm Ainv = nxm
 
     //computing the SVD
-    int info = LAPACKE_dgesdd(LAPACK_COL_MAJOR, 'A', m, n, a, lda, s,
+    int info = LAPACKE_dgesdd(LAPACK_COL_MAJOR, 'A', m, n, A, lda, s,
                 u, ldu, vt, ldvt);
     if (info !=0){
     std::cerr<<"Lapack error occured in dgesdd. error code :"<<info<<std::endl;
@@ -44,7 +51,7 @@ void linAlg::matPseudoInv(int m, int n, double *A, double *Ainv){
     // }
     // for (int i = 0; i < n; i++) {
     // for (int j = 0; j < n; j++) {
-    //     std::cout<<v[i*n+j]<<" ";}}
+    //     std::cout<<vt[i*n+j]<<" ";}}
     //     std::cout<<std::endl;
     for (int i = 0; i <m; i++) { //u^T is mxm but ignore last row since multiplied by s^-1 (nxm)
         for (int j=0; j<n; j++){
@@ -64,17 +71,31 @@ void linAlg::matPseudoInv(int m, int n, double *A, double *Ainv){
             suT[i*n+j]=s[j]*suT[i*n+j];
         }
     }
-
+    // cout<< "suT: ";
     // for (int i = 0; i < m; i++) {
     // for (int j = 0; j < n; j++) {
     //     std::cout<<suT[i*n+j]<<" ";}}
+    // std::cout<<std::endl;
 
     //compute the second multiplication Ainv=v(s^-1)u^T which is nxm vt is nxn (s-1)u^T is nxm
-    cblas_dgemm(CblasColMajor,CblasTrans, CblasNoTrans, n, m, n, aa, vt, n, suT, n, c, Ainv, n);
+    cblas_dgemm(CblasColMajor,CblasTrans,CblasNoTrans, n, m, n, aa, vt, n, suT, n, c, Ainv, n);
     //Ainv is the pseudoinverse of A.
+    // cout<< "Ainv: ";
+    // for (int i = 0; i < m; i++) {
+    // for (int j = 0; j < n; j++) {
+    //     std::cout<<Ainv[i*n+j]<<" ";}}
+    // std::cout<<std::endl;
+    //assign values to Ainv to output vector
+    for (int i=0; i<n*m; i++) Ainv_vec[i]=Ainv[i];
 
+    // delete [] u;
+    delete [] s;
+    delete [] vt;
+    delete [] suT;
+    delete [] A;
+    delete [] Ainv;
 }
-void linAlg::matMult(int m, int n,int k, double *A, double *B, double *C){
+void linAlg::matMult(int m, int n,int k, vector<double> &A_vec, vector<double> &B_vec, vector<double> &C_vec){
     // Order:Specifies row-major (C) or column-major (Fortran) data ordering.
     // TransA:Specifies whether to transpose matrix A.
     // TransB:Specifies whether to transpose matrix B.
@@ -82,37 +103,52 @@ void linAlg::matMult(int m, int n,int k, double *A, double *B, double *C){
     // N:Number of columns in matrices B and C.
     // K:Number of columns in matrix A; number of rows in matrix B.
     // alpha:Scaling factor for the product of matrices A and B.
-    // A:Matrix A.
+    // A:Matrix A mxk.
     // lda:The size of the first dimension of matrix A; if you are passing a matrix A[m][n], the value should be m.
-    // B:Matrix B.
+    // B:Matrix B kxn.
     // ldb:The size of the first dimension of matrix B; if you are passing a matrix B[m][n], the value should be m.
-    // beta:Scaling factor for matrix C.
+    // beta:Scaling factor for matrix C mxn.
     // C:Matrix C.
     // ldc:The size of the first dimension of matrix C; if you are passing a matrix C[m][n], the value should be m.
     const int aa = 1; //dgemm AB scaling
     const int cc = 0; //dgemm C scaling
-    cblas_dgemm(CblasColMajor,CblasNoTrans, CblasNoTrans, m, n, k, aa, A, m, B, k, cc, C, m);
-};
-#else
+    double *A = new double[m*k];
+    double *B = new double[k*n];
+    double *C = new double[n*m];
+    //convert to standard arrays from input vectors
+    //for (int i=0; i<k*m; i++) A[i]=A_vec[i]; 
+    copy(A_vec.begin(), A_vec.end(), A);
+    copy(B_vec.begin(), B_vec.end(), B);
 
-void linAlg::matMult(int m, int n,int k, double *A, double *B, double *C)
+    cblas_dgemm(CblasColMajor,CblasNoTrans, CblasNoTrans, m, n, k, aa, A, m, B, k, cc, C, m);
+
+    for (int i=0; i<n*m; i++) C_vec[i]=C[i];
+
+    delete[] A;
+    delete[] B;
+    delete[] C;
+}
+#else
+void linAlg::matMult(int m, int n,int k, vector<double> &A_vec, vector<double> &B_vec, vector<double> &C_vec)
 {
   for (int y=0; y<m;y++){
     for (int z=0; z<n; z++){
       for (int x=0; x<k;x++){
-        C[x*m+z]+=A[x*m+y]*B[y*n+z];
+        C_vec[x*m+z]+=A_vec[x*m+y]*B_vec[y*n+z];
       }
     }
 	
 }
 }
 
-void linAlg::matPseudoInv(int m, int n, double *A, double *Ainv){
+void linAlg::matPseudoInv(const int m, const int n, vector<double> &A_vec, vector<double> &Ainv_vec){
     for (int y=0; y<m;y++){
         for (int z=0; z<n; z++){
-            Ainv[y*n+z]=A[y*n+z];
+            Ainv_vec[y*n+z]=A_vec[y*n+z];
         }
     }
 
 }
 #endif
+    
+
