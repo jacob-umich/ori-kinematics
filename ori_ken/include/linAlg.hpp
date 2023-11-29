@@ -4,8 +4,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#if BLAS_FOUND
 #include <lapacke.h>
 #include <cblas.h>
+#endif
 
 class linAlg{
     // constructor/destructor

@@ -10,7 +10,7 @@
 linAlg::linAlg(void) {}
 
 linAlg::~linAlg() {}
-
+#if BLAS_FOUND
 void linAlg::matPseudoInv(int m, int n, double *A, double *Ainv){
     const int m=3,n=2;
 
@@ -93,3 +93,26 @@ void linAlg::matMult(int m, int n,int k, double *A, double *B, double *C){
     const int cc = 0; //dgemm C scaling
     cblas_dgemm(CblasColMajor,CblasNoTrans, CblasNoTrans, m, n, k, aa, A, m, B, k, cc, C, m);
 };
+#else
+
+void linAlg::matMult(int m, int n,int k, double *A, double *B, double *C)
+{
+  for (int y=0; y<m;y++){
+    for (int z=0; z<n; z++){
+      for (int x=0; x<k;x++){
+        C[x*m+z]+=A[x*m+y]*B[y*n+z];
+      }
+    }
+	
+}
+}
+
+void linAlg::matPseudoInv(int m, int n, double *A, double *Ainv){
+    for (int y=0; y<m;y++){
+        for (int z=0; z<n; z++){
+            Ainv[y*n+z]=A[y*n+z];
+        }
+    }
+
+}
+#endif

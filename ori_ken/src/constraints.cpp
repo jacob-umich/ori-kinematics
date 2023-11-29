@@ -29,12 +29,11 @@ namespace Okin{
 				rowIdx[iedge*6+icoord*2] = iedge;
 				colIdx[iedge*6+icoord*2] = nodeIdx[0]+icoord;
                 //for second node on edge
-                if (const_nodes[nodeIdx[1]][icoord]==1) C_vals[iedge*6+icoord*2+1] = 1;
-			    else C_vals[iedge*6+icoord*2+1]=nodes[nodeIdx[1]][icoord]-nodes[nodeIdx[0]][icoord];
-				colIdx[iedge*6+icoord*2+1] = iedge;
-				rowIdx[iedge*6+icoord*2+1] = nodeIdx[1]*3+icoord;
+			    C_vals[iedge*6+icoord*2] = _edges[iedge]->end_pos[icoord]-_edges[iedge]->start_pos[icoord];
+				rowIdx[iedge*6+icoord*2] = iedge;
+				colIdx[iedge*6+icoord*2] = nodeIdx[1]+icoord;
                 // Dense format
-                C[iedge*6+icoord*2]=nodes[nodeIdx[0]][icoord]-nodes[nodeIdx[1]][icoord];
+                // C[iedge*6+icoord*2]=nodes[nodeIdx[0]][icoord]-nodes[nodeIdx[1]][icoord];
 			}
         }
         size_t nnz=_edges.size()*6;

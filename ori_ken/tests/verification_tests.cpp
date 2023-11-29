@@ -1,4 +1,5 @@
 #include "linAlg.hpp"
+#include <vector>
 using namespace std;
 int main(){
     linAlg *linAlgClass;
@@ -10,8 +11,8 @@ int main(){
     Ainv.resize(m*n);
     C.resize(m*n);
 
-    linAlgClass->matPseudoInv(m, n, A, Ainv);
-    linAlgClass->matMult(m, m,n, A, Ainv, C);
+    linAlgClass->matPseudoInv(m, n, &A[0], &Ainv[0]);
+    linAlgClass->matMult(m, m,n, &A[0], &Ainv[0], &C[0]);
     cout<<"Ainv: ";
     for (int i=0; i<m; i++){
         for(int j=0; j<n; j++){

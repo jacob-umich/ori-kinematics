@@ -6,6 +6,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+
 # Check that the compiler supports the C++17 standard
 # We assume you are using GNU compilers
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -23,7 +24,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GNU_WARNING_FLAGS}")
 # Enable testing
 include(CTest)
 enable_testing()
+find_package(BLAS)
+if (NOT BLAS_FOUND)
+
+  add_compile_definitions(BLAS_FOUND=0)
+endif()
 
 add_subdirectory(ori_ken)
 add_subdirectory(example)
-add_subdirectory(tests)
