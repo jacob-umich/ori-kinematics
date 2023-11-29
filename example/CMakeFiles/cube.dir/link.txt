@@ -1,0 +1,1 @@
+/sw/pkgs/arc/gcc/10.3.0/bin/g++   -Wall -Wcast-align -Wcast-qual -Wconversion -Wdouble-promotion -Wextra -Werror -Wfloat-equal -Wimplicit-fallthrough -Wmissing-noreturn -Wnon-virtual-dtor -Wold-style-cast -Wshadow -Wundef -Wunused -Wvla -Wzero-as-null-pointer-constant -pedantic CMakeFiles/cube.dir/create_cube.cpp.o -o cube  ../ori_ken/src/libori_ken.a 

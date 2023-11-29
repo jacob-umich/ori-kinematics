@@ -23,9 +23,8 @@ namespace Okin{
             Structure(char * input);
             void printNodes();
             //generate constraints
-            void generateConstraints(vector<vector<double>> &nodes,
-                vector<vector<int>> &edges, size_t nnodes,size_t nedges,
-                vector<vector<int>> &const_nodes,vector<double> &C, vector<int> &colIdx, vector<int> &rowIdx);
+            void genConstraints(vector<vector<double>> &nodes,
+    vector<vector<int>> &edges,vector<int> &glob_cnst, vector<double> cnst_mat);
 
     };
 
