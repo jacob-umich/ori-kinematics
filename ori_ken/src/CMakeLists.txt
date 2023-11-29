@@ -4,6 +4,7 @@ add_library(ori_ken
   structure.cpp
   jsonParser.cpp
   body.cpp
+  linAlg.cpp
   constraints.cpp
 )
 

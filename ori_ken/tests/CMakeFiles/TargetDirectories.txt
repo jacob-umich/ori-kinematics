@@ -1,0 +1,3 @@
+/home/nzamb/NERS570/F23/ori-kinematics/ori_ken/tests/CMakeFiles/verification.dir
+/home/nzamb/NERS570/F23/ori-kinematics/ori_ken/tests/CMakeFiles/edit_cache.dir
+/home/nzamb/NERS570/F23/ori-kinematics/ori_ken/tests/CMakeFiles/rebuild_cache.dir

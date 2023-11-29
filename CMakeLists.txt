@@ -26,3 +26,4 @@ enable_testing()
 
 add_subdirectory(ori_ken)
 add_subdirectory(example)
+add_subdirectory(tests)

@@ -3,6 +3,7 @@
 #include "node.hpp"
 #include "body.hpp"
 #include "jsonParser.hpp"
+#include "linAlg.hpp"
 
 #pragma once
 
