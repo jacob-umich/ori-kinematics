@@ -16,6 +16,7 @@ namespace Okin{
             edgeList _edges;
             Body(JSONObject);
             void printConnectivity();
+            void printFace(std::vector<size_t>&);
             size_t nEdges;
             vector<vector<size_t>> faces;
 

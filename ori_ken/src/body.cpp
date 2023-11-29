@@ -23,7 +23,6 @@ namespace Okin{
         for (size_t i=0;i<numNodes;i++){
             JSONObject jNode=jNodes[i]->returnObject();
             Node *newNode=new Node(jNode);
-            newNode->printPos();
             _nodes.push_back(newNode);
         }
         size_t numMeshedNodes = 0;
@@ -35,12 +34,10 @@ namespace Okin{
             for (size_t i=0;i<numUnmeshedNodes;i++){
                 Node *currentNode=nodeCopy[i];
                 if(currentNode->_id==6){
-                    std::cout<<"here";
                 }
                 if (numMeshedNodes>2){
                     bool reset_i=false;
                     for (size_t j=numMeshedNodes-1;j>1;j--){
-                        currentNode->printPos();
                         std::vector<double> a = (*meshedNodes[j])-(*currentNode);
                         std::vector<double> b = (*meshedNodes[j-1])-(*currentNode);
                         std::vector<double> c = (*meshedNodes[j-2])-(*currentNode);
@@ -90,7 +87,6 @@ namespace Okin{
                     break;
 
                 }
-                std::cout<<"test"<<std::endl;
             }
         }
         connectivityLocal.resize(numNodes);
@@ -121,6 +117,7 @@ namespace Okin{
             newFace.resize(tempList.size());
             std::transform(tempList.begin(),tempList.end(),newFace.begin(),toSize_t);
             faces.push_back(newFace);
+            
         }
 
     }
@@ -143,6 +140,18 @@ namespace Okin{
                 if(j==(numNodes-1)){
                     std::cout<<"\n";
                 }
+            }
+        }
+    }
+    void Body::printFace(vector<size_t>& face){
+        std::cout<<"[";
+        size_t numNodes = face.size();
+        for (size_t i=0;i<numNodes;i++){
+            std::cout<< face[i];
+            if (!(i==(numNodes-1))){
+                std::cout<<", ";
+            }else{
+                std::cout<<" ]"<<std::endl;
             }
         }
     }
