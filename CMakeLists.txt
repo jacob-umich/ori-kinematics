@@ -28,6 +28,9 @@ find_package(BLAS)
 if (NOT BLAS_FOUND)
 
   add_compile_definitions(BLAS_FOUND=0)
+else ()
+  add_compile_definitions(BLAS_FOUND=1)
+
 endif()
 
 add_subdirectory(ori_ken)
