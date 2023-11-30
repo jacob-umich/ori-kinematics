@@ -1,4 +1,6 @@
 # Prerequisites
+build/*
+.vscode
 *.d
 
 # Compiled Object files
@@ -33,3 +35,12 @@
 
 .vscode
 build
+
+#latex
+*.synctex.gz
+*.log
+*.fls
+*.fdb_latexmk
+*.blg
+*.bbl
+*.aux

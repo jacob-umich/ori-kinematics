@@ -1,7 +1,8 @@
-#include ori_ken.hpp
+#include "ori_ken.hpp"
 
-namespace Okin {
+int main(){
 
-    
-
+    Okin::Structure cube {"./cube.json"};
+    cube.genConstraints();
+    return 0;
 }

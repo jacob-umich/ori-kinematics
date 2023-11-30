@@ -1,15 +1,24 @@
 #pragma once
-
+#include <vector>
+#include "jsonParser.hpp"
+using std::vector;
 namespace Okin{
-    class node{
+    class Node{
 
-        protected:
-            char * name;
-            double * position;
-            node * neighbors;
-            int * fixities;
-        private:
-            size_t n_bodies;
+        public:
+            int _id;
+            bool coordinated;
+            vector<int> coordinates;
+            vector<Node*> neighbors;
+            vector<int> _fixities;
+            vector<double> _position;
+            Node (JSONObject);
+            Node();
+            void printPos();
+            void printFix();
+            vector<double> operator-(Node);
+            vector<double> operator<(Node);
+            // double toDPos(JSONNode*);
 
     };
 }

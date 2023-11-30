@@ -15,3 +15,8 @@ Generate a mesh using the algorithm provided in Zhang and Kawaguchi 2021
 ![mesh_gen](Documentation/mesh_gen.png)
 
 more resources on kinematic simulation: [link](https://siggraphcontact.github.io/) 
+
+## COMPILATION AND RUNNING
+from start, run the following commands:
+$cmake
+$cmake --build
