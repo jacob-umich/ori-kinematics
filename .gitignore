@@ -31,4 +31,9 @@
 *.out
 *.app
 
+<<<<<<< HEAD
 build/*
+=======
+.vscode
+build
+>>>>>>> origin/main
