@@ -15,7 +15,6 @@ namespace Okin {
 
         for (size_t i=0;i<numBodies;i++){
             JSONObject jBody=jBodies[i]->returnObject();
-            idB=jBody["id"]->returnNumber();
             Body *newBody = new Body(jBody);
             _bodies.push_back(newBody);
             for (auto node=newBody->_nodes.begin();node!=newBody->_nodes.end();node++){

@@ -16,13 +16,10 @@ namespace Okin{
 
         protected:
             char * name;
-            int id;
             nodeList _nodes;
             bodyList _bodies;
             edgeList _edges;
-            int _nNodes;
         private:
-            size_t n_bodies;
             JSONParser parser;
             std::shared_ptr<JSONNode> root;
             int coordinate;
@@ -30,8 +27,6 @@ namespace Okin{
 
         public:
             Structure(std::string inputFile);
-            double idB;
-            void printNodes();
             //generate constraints
             void genConstraints();
 

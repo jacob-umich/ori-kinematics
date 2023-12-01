@@ -1,68 +1,71 @@
 @startuml
-scale 1200 width
-class Node {
-    ~vector<double> position
-    ~int _id
-    ~int * dof
-    ~int * neighbors
-    +Constructor()
-    +Deconstructor()
-    +void getPos(double * positionOutput)
-    ~Edge * add()
-    ~Edge * sub()
-    ~void move(double * newPosition)
-}
-class Edge {
-    ~int id
-    ~Node ** nodes
-    ~int * dof
-    +Constructor()
-    +Deconstructor()
-    ~double * makeConstraint(int nDof)
-}
-class Face {
-    ~Node ** nodes
-    ~double * outwardNormal
-    -int id
-    +Constructor()
-    +Deconstructor()
-}
+scale 1600 width
+scale 900 height
+' together{
+    class Node {
+        +int _id
+        +bool coordinated
+        +vector<int> coordinates
+        +vector<Node*> neighbors
+        +vector<int> _fixities
+        +vector<double> _position
+        +Node (JSONObject)
+        +Node()
+        +void printPos()
+        +void printFix()
+        +vector<double> operator-(Node)
+        +vector<double> operator<(Node)
+        +void move(double * newPosition)
+    }
+    class Edge {
+        +Constructor(Node*,Node*)
+        +Deconstructor()
+        +double length
+        +vector<double> dir
+        +vector<Node*> _nodes
+        +vector<double> start_pos
+        +vector<double> end_pos
+        +void updatePos()
+    }
+' }
 class Body {
-    ~Node ** nodes
-    ~int * dof
-    -Edge ** edges
-    -Face ** faces
-    -int id
-    +Constructor()
+    +Constructor(JSONObject)
     +Deconstructor()
+    +vector<vector<int>> connectivityLocal
+    +int _id
+    +size_t nEdges
+    +vector<Node*> _nodes
+    +vector<Edge*> _edges
+    +void printConnectivity()
+    +void printFace(std::vector<size_t>&)
+    +vector<vector<size_t>> faces
 }
 class Structure {
-    -Node ** nodes
-    -Edge ** edges
-    -Face ** faces
-    -Body ** bodies
-    -int id
-    -double ** targetVelocities
-    +Constructor(file * inputFile)
+    -vector<vector<double>> targetVelocities
+    +Constructor(string inputFile)
     +Deconstructor()
-    +void simulateKinematics(double ** targetVelocities)
+    +void simulateKinematics()
     +void getSimulationStep(int i)
-    ~void defineEdges()
-    ~void connectBodies()
-    ~void defineDOF()
-    ~void generateConstraints(double * constraintOutput)
+    +void outputSimToFile()
+    ~char * name
+    ~vector<Node*> _nodes
+    ~vector<Body*> _bodies
+    ~vector<Edge*> _edges
+    -JSONParser parser
+    -shared_ptr<JSONNode> root
+    -int coordinate
+    -vector<double> cnst_mat
+    +void genConstraints()
 }
 
-Node<--*Edge
-Edge<--*Face
-Face<--*Body
-Node<--*Body
-Node<--*Face
+Node<-right-*Edge
+Node<-down-*Body
 Edge<--*Body
 
 
 Node<--*Structure
 Edge<--*Structure
-Face<--*Structure
-Body <--*Structure
+Body <-right-*Structure
+
+
 @enduml

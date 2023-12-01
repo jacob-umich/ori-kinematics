@@ -1,35 +1,43 @@
 @startuml
-scale 1200 width
+scale 1600 width
+scale 900 height
 state Structure {
     Uninitialized --> Initialized: Constructor
-    Initialized --> Simulated: Simulate
+    Initialized --> Uninitialized: Deconstructor
+    Initialized -right-> Simulated: Simulate
     Simulated-->Simulated: repeat for defined timesteps
     Uninitialized: the object has not been defined
 
     state Initialized {
-    [*] --> FileInMemory: FileLoaded
+        [*] ->JSONParser: JSONParser Constructor
+        state JSONParser{
+            FileInMemory -> JSONBodiesDefined: parser.parse()
+            FileInMemory--> JSONTargetVelocitiesDefined: parser.parse()
+
+        }
+        JSONParser --> BodiesDefined: Body Constructor
+        JSONParser --> TargetVelocitiesDefined
     
-    FileInMemory --> BodiesDefined: ParseFile
-    state BodiesDefined{
-        [*] --> DefineNodes: Define body nodes from file
-        DefineNodes --> NodesConnected: Define Edges
-        DefineNodes: Define all nodes for a body
-        NodesConnected:
-    }
-    FileInMemory --> TargetVelocitiesDefined: ParseFile
-    BodiesDefined --> BodiesDefined: MoreBodies
-    BodiesDefined --> BodiesConnected: organize nodes in a global sense
-    BodiesConnected: This step will map shared nodes to the same coordinate
-    TargetVelocitiesDefined: Define the velocity direction, magnitude, timestep, and number of steps
+        state BodiesDefined{
+            [*] --> DefineNodes: Define body nodes from\nJSON body object
+            DefineNodes --> NodesConnected: Define Edges
+            DefineNodes --> FacesDefined: Define Faces\nfrom JSON
+        }
+        BodiesDefined --> BodiesDefined: MoreBodies
+        BodiesDefined --> BodiesConnected: Give nodes a coordinate number
+        BodiesConnected: This step will map shared\nnodes to the same coordinate
+        TargetVelocitiesDefined: Define the velocity direction,\nmagnitude, timestep, and\nnumber of steps
     }
 
     state Simulated {
         [*] --> MotionRestricted: Define Constraint Matrix
         MotionRestricted--> HasAcceptableVelocity: project target velocity
         HasAcceptableVelocity --> UpdatedPositions: Integrate velocities
-        HasAcceptableVelocity --> OldPositionsStored: Store old positions for use later
-        OldPositionsStored --> OldPositionsStored: Access Positions
     }
+        ' UpdatedPositions -[hidden]-> OldPositionsStored
+        Simulated --> OldPositionsStored: Store old positions for use later
+        OldPositionsStored --> OldPositionsStored: Access Positions
+        OldPositionsStored --> HistoryStored: Write displacement history to file
 }
 
 @enduml
