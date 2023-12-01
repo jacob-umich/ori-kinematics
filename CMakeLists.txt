@@ -33,5 +33,5 @@ else ()
 
 endif()
 
-add_subdirectory(ori_ken)
+add_subdirectory(ori_kin)
 add_subdirectory(example)

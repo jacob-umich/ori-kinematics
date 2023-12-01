@@ -7,14 +7,8 @@
 // Therefore, we check that _LIBSPMV_, a macro defined in the top-level header file, is
 // defined. Otherwise, we throw an error.
 
-#ifndef _LIBSPMV_
-#  error("unit_test_framework.hpp must be included AFTER SpMV.hpp!")
-#endif
-
-#ifdef __SPMV_FPTYPE__
-using fp_type = __SPMV_FPTYPE__;
-#else
-#  error("__SPMV_FPTYPE__ must be defined!")
+#ifndef __LIBOkin__
+#    error unit_test_framework.hpp must be included AFTER ori_kin.hpp!
 #endif
 
 #include <cstdio>  // printf
@@ -33,8 +27,6 @@ using fp_type = __SPMV_FPTYPE__;
 //
 // Similar to the C++ testing framework Catch2, but much simpler.
 
-#define ASSERT(cond) assert(cond)
-
 #define ASSERT_NEAR(a, b, eps)                                                           \
   {                                                                                      \
     auto const a_eval = (a);                                                             \
@@ -49,3 +41,4 @@ using fp_type = __SPMV_FPTYPE__;
   printf("Running test case '%s'\n", #name);                                             \
   name();                                                                                \
   printf("Test case '%s' passed\n", #name);
+  

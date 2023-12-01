@@ -1,4 +1,4 @@
-add_library(ori_ken
+add_library(ori_kin
   edge.cpp
   node.cpp
   structure.cpp
@@ -10,7 +10,7 @@ add_library(ori_ken
 
 
 
-target_include_directories(ori_ken PUBLIC
+target_include_directories(ori_kin PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
   $<INSTALL_INTERFACE:include>
 )
