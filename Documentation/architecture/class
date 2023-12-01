@@ -1,8 +1,8 @@
 @startuml
 scale 1200 width
 class Node {
-    ~double * position
-    ~int id
+    ~vector<double> position
+    ~int _id
     ~int * dof
     ~int * neighbors
     +Constructor()
