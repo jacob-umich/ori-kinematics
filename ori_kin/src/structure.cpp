@@ -15,7 +15,6 @@ namespace Okin {
 
         for (size_t i=0;i<numBodies;i++){
             JSONObject jBody=jBodies[i]->returnObject();
-            idB=jBody["id"]->returnNumber();
             Body *newBody = new Body(jBody);
             _bodies.push_back(newBody);
             for (auto node=newBody->_nodes.begin();node!=newBody->_nodes.end();node++){
@@ -34,6 +33,8 @@ namespace Okin {
                     (*node)->coordinates[0]=coordinate++;
                     (*node)->coordinates[1]=coordinate++;
                     (*node)->coordinates[2]=coordinate++;
+                    (*node)->coordinated=true;
+
                 }
             }
             for (auto jObj=jJoints.begin();jObj!=jJoints.end();jObj++){
@@ -51,5 +52,21 @@ namespace Okin {
                 }
             }
         }
+    }
+
+    Node * Structure::getNode(int i){
+        return _nodes[i];
+    }
+    Body * Structure::getBody(int i){
+        return _bodies[i];
+    }
+    size_t Structure::getNNode(){
+        return _nodes.size();
+    }
+    size_t Structure::getNBody(){
+        return _bodies.size();
+    }
+    size_t Structure::getNCoords(){
+        return coordinate;
     }
 }

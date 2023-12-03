@@ -13,11 +13,11 @@ namespace Okin{
             vector<int> _fixities;
             vector<double> _position;
             Node (JSONObject);
-            Node();
             void printPos();
             void printFix();
             vector<double> operator-(Node);
-            vector<double> operator<(Node);
+            bool operator<(Node);
+            bool operator>(Node);
             // double toDPos(JSONNode*);
 
     };

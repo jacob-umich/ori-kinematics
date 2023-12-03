@@ -32,6 +32,11 @@ namespace Okin{
             Structure(std::string inputFile);
             double idB;
             void printNodes();
+            Node * getNode(int);
+            Body * getBody(int);
+            size_t getNNode();
+            size_t getNBody();
+            size_t getNCoords();
             //generate constraints
             void genConstraints();
 

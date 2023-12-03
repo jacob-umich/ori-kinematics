@@ -16,7 +16,7 @@ namespace Okin
         length=0;
         for(int i=0;i<3;i++){
             length+=dir[i]*dir[i];
-            length=std::sqrt(length);
         }
+        length=std::sqrt(length);
     }
 } // namespace Okin

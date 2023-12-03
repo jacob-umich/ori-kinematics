@@ -26,9 +26,6 @@ namespace Okin
         coordinated=false;
 
     }
-    Node::Node(){
-        _position=vector<double>{3,0.0};
-    }
 
     void Node::printPos(){
         std::cout<< _position[0]<< _position[1]<< _position[2]<<std::endl;
@@ -44,4 +41,12 @@ namespace Okin
         return res;
 
     }
+    bool Node::operator<(Node j){
+        return (j._id>_id);
+       
+    };
+    bool Node::operator>(Node j){
+        return (j._id<_id);
+       
+    };
 } // namespace Okin

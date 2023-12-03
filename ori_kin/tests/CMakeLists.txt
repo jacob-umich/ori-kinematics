@@ -1,32 +1,34 @@
 add_executable(verification verification_tests.cpp)
-add_executable(st simple_test.cpp)
-add_executable(json jsonTests.cpp)
+add_executable(json_ut jsonTests.cpp)
+add_executable(meshing_ut meshing_ut.cpp)
+add_executable(meshing_verif meshing_verif.cpp)
 
 configure_file(jsonTest.json ${CMAKE_CURRENT_BINARY_DIR}/jsonTest.json COPYONLY)
+configure_file(testMesh.json ${CMAKE_CURRENT_BINARY_DIR}/testMesh.json COPYONLY)
 
-find_package(LAPACK)
-if(LAPACK_FOUND AND BLAS_FOUND)
-  set(lapackblas_libraries ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
-  target_link_libraries(verification ${lapackblas_libraries} ori_kin)
-else()
-  target_link_libraries(verification PRIVATE ori_kin)
-  target_include_directories(verification PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
-    $<INSTALL_INTERFACE:include>
-  )
+target_link_libraries(verification ori_kin)
+target_link_libraries(json_ut ori_kin)
+target_link_libraries(meshing_ut ori_kin)
+target_link_libraries(meshing_verif ori_kin)
   
-  endif()
-  target_link_libraries(st PRIVATE ori_kin)
-  target_link_libraries(json PRIVATE ori_kin)
-  target_include_directories(st PUBLIC
+target_include_directories(verification PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
+  $<INSTALL_INTERFACE:include>
+)
+target_include_directories(json_ut PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
+    $<INSTALL_INTERFACE:include>
+)
+target_include_directories(meshing_ut PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
     $<INSTALL_INTERFACE:include>
-  )
-  target_include_directories(json PUBLIC
+)
+target_include_directories(meshing_verif PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
     $<INSTALL_INTERFACE:include>
-  )
+)
 
 add_test(verification verification)
-add_test(st st)
-add_test(json json)
+add_test(json_ut json_ut)
+add_test(meshing_ut meshing_ut)
+add_test(meshing_verif meshing_verif)

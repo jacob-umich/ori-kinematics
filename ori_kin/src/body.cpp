@@ -2,6 +2,10 @@
 #include <iostream>
 #include <algorithm>
 
+bool compareNodePnt(Okin::Node*i,Okin::Node*j){
+    return (*i)<(*j);
+}
+
 double myDet(std::vector<std::vector<double>>& input){
     double ret = input[0][0]*(input[1][1]*input[2][2]-input[1][2]*input[2][1])+input[0][1]*(input[1][2]*input[2][0]-input[1][0]*input[2][2])+input[0][2]*(input[1][0]*input[2][1]-input[1][1]*input[2][0]);
     return ret;
@@ -99,7 +103,7 @@ namespace Okin{
             }
         }
 
-        std::sort(_nodes.begin(),_nodes.end());
+        std::sort(_nodes.begin(),_nodes.end(),compareNodePnt);
 
         for (size_t i=0; i<numNodes;i++){
             for (size_t j=i+1; j<numNodes;j++){

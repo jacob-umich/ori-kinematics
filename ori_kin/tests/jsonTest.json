@@ -3,6 +3,6 @@
     "baz":[0,1,2],
     "more_objects":[
         {"obj1":10},
-        {"obj1":[true,false,{"type":"sigmoid"}]}
+        {"obj2":[true,false,{"type":"sigmoid"}]}
     ]
 }
