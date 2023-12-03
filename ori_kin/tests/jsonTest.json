@@ -1,0 +1,8 @@
+{
+    "foo":"bar",
+    "baz":[0,1,2],
+    "more_objects":[
+        {"obj1":10},
+        {"obj2":[true,false,{"type":"sigmoid"}]}
+    ]
+}

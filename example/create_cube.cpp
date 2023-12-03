@@ -1,4 +1,4 @@
-#include "ori_ken.hpp"
+#include "ori_kin.hpp"
 
 int main(){
 

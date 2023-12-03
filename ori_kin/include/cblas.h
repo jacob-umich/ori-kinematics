@@ -1,3 +1,4 @@
+#pragma once
 extern "C" {
     enum CBLAS_ORDER {CblasRowMajor=101, CblasColMajor=102};
     enum CBLAS_TRANSPOSE {CblasNoTrans=111, CblasTrans=112, CblasConjTrans=113};

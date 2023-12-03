@@ -23,9 +23,12 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GNU_WARNING_FLAGS}")
 
 # Enable testing
 include(CTest)
+include(findLAPACKE)
 enable_testing()
 find_package(BLAS)
-if (NOT BLAS_FOUND)
+find_package(LAPACK)
+find_package(LAPACKE)
+if (NOT (LAPACK_FOUND AND BLAS_FOUND AND LAPACKE_FOUND))
 
   add_compile_definitions(BLAS_FOUND=0)
 else ()
@@ -33,5 +36,5 @@ else ()
 
 endif()
 
-add_subdirectory(ori_ken)
+add_subdirectory(ori_kin)
 add_subdirectory(example)
