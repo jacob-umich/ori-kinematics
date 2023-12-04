@@ -58,6 +58,12 @@ double JSONNode::returnNumber(){
     }
     throw std::logic_error("Improper return");
 }
+int JSONNode::returnInt(){
+    if(type==Type::NUMBER){
+        return int(values.dValue);
+    }
+    throw std::logic_error("Improper return");
+}
 auto JSONNode::setNumber(double d){
     this->values.dValue = d;
     type=Type::NUMBER;

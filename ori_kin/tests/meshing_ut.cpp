@@ -119,7 +119,16 @@ TEST_CASE(jointDefined){
     assert(node_1->coordinates[0]==node_2->coordinates[0]);
     assert(node_1->coordinates[1]==node_2->coordinates[1]);
     assert(node_1->coordinates[2]==node_2->coordinates[2]);
+
+    assert(tester.getJoint(0).first.first==0);
+    assert(tester.getJoint(0).first.second==1);
+    assert(tester.getJoint(0).second.first==5);
+    assert(tester.getJoint(0).second.second==4);
+    assert(tester.getJoint(1).second.first==6);
+    assert(tester.getJoint(1).second.second==7);
 }
+
+
 
 // verify angular velocity
 // verify vector velocity

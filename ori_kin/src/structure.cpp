@@ -5,8 +5,10 @@
 #include <string>
 #include <iostream>
 
+
 namespace Okin {
     Structure::Structure(const std::string inputFile): parser(inputFile){
+        currentStep = 0;
         parser.parse();
         root = parser.root;
         JSONObject jStructure = root->returnObject();
@@ -52,6 +54,30 @@ namespace Okin {
                 }
             }
         }
+        // save joints for later
+        _joints.resize(jJoints.size());
+        for (auto jObj=jJoints.begin();jObj!=jJoints.end();jObj++){
+            int body_1 =int( (*jObj)->returnObject()["bodies"]->returnList()[0]->returnNumber());
+            int body_2 =int( (*jObj)->returnObject()["bodies"]->returnList()[1]->returnNumber());
+            int node_1 =int( (*jObj)->returnObject()["nodes"]->returnList()[0]->returnNumber());
+            int node_2 =int( (*jObj)->returnObject()["nodes"]->returnList()[1]->returnNumber());
+            int jointId =int( (*jObj)->returnObject()["id"]->returnNumber());
+            std::pair<int,int> bodies(body_1,body_2);
+            std::pair<int,int> nodes(node_1,node_2);
+            std::pair<std::pair<int,int>,std::pair<int,int>> joint (bodies,nodes);
+            _joints[jointId]=joint;
+        }
+        
+        JSONList jVelocities =  jStructure["target_velocities"]->returnList();
+        
+        max_step=0;
+        for (auto vel=jVelocities.begin();vel!=jVelocities.end();vel++){
+            tVelocity *newVel=new tVelocity((*vel)->returnObject(),*this);
+            _tVels.push_back(newVel);
+            if (newVel->end>max_step){
+                max_step=newVel->end;
+            }
+        }
     }
 
     Node * Structure::getNode(int i){
@@ -59,6 +85,9 @@ namespace Okin {
     }
     Body * Structure::getBody(int i){
         return _bodies[i];
+    }
+    std::pair<std::pair<int,int>,std::pair<int,int>> Structure::getJoint(int i){
+        return _joints[i];
     }
     size_t Structure::getNNode(){
         return _nodes.size();
@@ -69,4 +98,19 @@ namespace Okin {
     size_t Structure::getNCoords(){
         return coordinate;
     }
+    vector<double> Structure::getNextTarVelocity(){
+        vector<double> output(3,0);
+        for (auto vel=_tVels.begin();vel!=_tVels.end();vel++){
+            if ((*vel)->start<=currentStep &&(*vel)->end>currentStep){
+                vector<double> v=(*vel)->getVelocity();
+                for (int i=0;i<3;i++){
+                    output[i]+=v[i];
+                }
+            }
+        }
+        currentStep++;
+        return output;
+    }
+
+
 }
