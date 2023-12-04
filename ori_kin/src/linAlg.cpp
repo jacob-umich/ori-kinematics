@@ -34,7 +34,7 @@ void linAlg::matPseudoInv(const int m, const int n, vector<double> &A_vec, vecto
     // Ainv = V(s^-1)U^T where V=nxn s^-1=nxm U^T=mxm Ainv = nxm
 
     //computing the SVD
-    int info = LAPACKE_dgesdd(LAPACK_COL_MAJOR, 'A', m, n, A, lda, s,
+    int info = LAPACKE_dgesdd_(LAPACK_COL_MAJOR, 'A', m, n, A, lda, s,
                 u, ldu, vt, ldvt);
     if (info !=0){
     std::cerr<<"Lapack error occured in dgesdd. error code :"<<info<<std::endl;
