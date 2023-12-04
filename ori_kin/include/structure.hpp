@@ -26,11 +26,11 @@ namespace Okin{
             JSONParser parser;
             std::shared_ptr<JSONNode> root;
             int coordinate;
-            vector<double> cnst_mat;
 
         public:
             Structure(std::string inputFile);
             double idB;
+            vector<double> cnst_mat;
             void printNodes();
             Node * getNode(int);
             Body * getBody(int);

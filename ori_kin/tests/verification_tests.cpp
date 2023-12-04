@@ -1,5 +1,4 @@
 #include "linAlg.hpp"
-#include <vector>
 using namespace std;
 int main(){
     linAlg *linAlgClass;
