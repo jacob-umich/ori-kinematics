@@ -46,9 +46,9 @@ namespace Okin
     bool Node::operator<(Node j){
         return (j._id>_id);
        
-    };
+    }
     bool Node::operator>(Node j){
         return (j._id<_id);
        
-    };
+    }
 } // namespace Okin
