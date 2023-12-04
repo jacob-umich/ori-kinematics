@@ -2,6 +2,7 @@
 #include "body.hpp"
 #include "edge.hpp"
 #include "node.hpp"
+#include "targetVelocity.hpp"
 
 #include "cblas.h"
 #include "lapacke.h"

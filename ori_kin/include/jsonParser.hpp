@@ -29,6 +29,7 @@ class JSONNode {
         JSONList returnList();
         std::string returnString();
         double returnNumber();
+        int returnInt();
         bool returnBool();
         auto setObject(JSONObject *);
         auto setList(JSONList*);
