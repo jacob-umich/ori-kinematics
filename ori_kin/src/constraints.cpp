@@ -7,8 +7,8 @@ namespace Okin
     void Structure::genConstraints(){
         size_t nedges = _edges.size();
         size_t nDOF = size_t(coordinate);
+        size_t nFixities = 0;
 
-        cnst_mat.resize(nedges*nDOF);
         vector<vector<double>> full_cnst_mat;
         full_cnst_mat.resize(nedges,vector<double>(nDOF,0.0));//initialize all to zero
         // C matrix is nedgesx3nnodes
@@ -34,19 +34,19 @@ namespace Okin
         for (auto node=_nodes.begin();node!=_nodes.end();node++){
             for(size_t i=0; i<3; i++){ 
                 if ((*node)->_fixities[i]==1) {
+                    nFixities+=1;
                     vector<double>newRow(nDOF,0.0);
                     newRow[(*node)->coordinates[i]]=1;
                     full_cnst_mat.push_back(newRow);
                 }
             }
 	    }
-
+        cnst_mat.resize((nedges+nFixities)*nDOF);
         // convert to column-major storage
         for (size_t i=0; i<nDOF; i++){
-            for (size_t j=0; j<nedges; j++){
-                cnst_mat[i*nedges+j] = full_cnst_mat[j][i];
+            for (size_t j=0; j<(nedges+nFixities); j++){
+                cnst_mat[i*(nedges+nFixities)+j] = full_cnst_mat[j][i];
             }
         }
     }
-
 } // namespace Okin
