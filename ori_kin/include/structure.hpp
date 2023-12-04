@@ -32,7 +32,9 @@ namespace Okin{
             std::shared_ptr<JSONNode> root;
             int coordinate;
             vector<double> cnst_mat;
+            int n_const;
             int currentStep;
+            double eulerStepSize;
 
         public:
             Structure(std::string inputFile);
@@ -44,9 +46,12 @@ namespace Okin{
             size_t getNNode();
             size_t getNBody();
             size_t getNCoords();
+            vector<double> getSimStep(int i);
             //generate constraints
             void genConstraints();
             vector<double> getNextTarVelocity();
+            void simulate(std::string);
+            void eulerIntegrate(vector<double>&);
 
     };
 

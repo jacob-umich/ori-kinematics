@@ -24,6 +24,8 @@ namespace Okin
             std::transform(jFix.begin(),jFix.end(),_fixities.begin(),toI);
         }
         coordinated=false;
+        _positionHist.resize(1);
+        _positionHist[0]=_position;
 
     }
 

@@ -8,6 +8,7 @@
 
 namespace Okin {
     Structure::Structure(const std::string inputFile): parser(inputFile){
+        eulerStepSize=0.001;
         currentStep = 0;
         parser.parse();
         root = parser.root;
@@ -109,6 +110,64 @@ namespace Okin {
             }
         }
         currentStep++;
+        return output;
+    }
+    void Structure::eulerIntegrate(vector<double>& vel){
+        for(auto node=_nodes.begin();node!=_nodes.end();node++){
+            (*node)->_position[0]=(*node)->_position[0]+eulerStepSize*vel[(*node)->coordinates[0]];
+            (*node)->_position[1]=(*node)->_position[1]+eulerStepSize*vel[(*node)->coordinates[1]];
+            (*node)->_position[2]=(*node)->_position[2]+eulerStepSize*vel[(*node)->coordinates[2]];
+            std::vector<double>newPosHis = (*node)->_position;
+            (*node)->_positionHist.push_back(newPosHis);
+        }
+    }
+
+    void Structure::simulate(std::string method){
+        for(auto node=_nodes.begin();node!=_nodes.end();node++){
+            (*node)->_positionHist.reserve(max_step);
+        }
+        while (currentStep<=max_step){
+            linAlg linlib; 
+            vector<double> targetVel = getNextTarVelocity();
+            vector<double> vel;
+            vector<double> projector;
+            vector<double> pinv;
+            projector.resize(coordinate*coordinate);
+            pinv.resize(coordinate,n_const);
+            vel.resize(coordinate);
+            linlib.matPseudoInv(n_const,coordinate,cnst_mat,pinv);
+            linlib.matMult(coordinate,coordinate,n_const,pinv,cnst_mat,projector);
+            for (int i=0;i<coordinate;i++){
+                for(int j=0;j<coordinate;j++){
+                    int ident;
+                    if (i==j){
+                        ident=1;
+                    }else{
+                        ident=0;
+                    }
+                    vel[i]=(ident-projector[i*coordinate+j])*targetVel[j];
+                }
+
+            }
+            if(method=="euler"){
+                eulerIntegrate(vel);
+            }
+            for(auto edge=_edges.begin();edge!=_edges.end();edge++){
+                (*edge)->updatePos();
+            }
+            
+            
+        }
+    }
+
+    vector<double> Structure::getSimStep(int i){
+        vector<double> output;
+        output.resize(coordinate);
+        for(auto node=_nodes.begin();node!=_nodes.end();node++){
+            output[(*node)->coordinates[0]]=(*node)->_positionHist[i][0];
+            output[(*node)->coordinates[1]]=(*node)->_positionHist[i][1];
+            output[(*node)->coordinates[2]]=(*node)->_positionHist[i][2];
+        }
         return output;
     }
 

@@ -40,10 +40,10 @@ namespace Okin
                 }
             }
 	    }
-
+        n_const = int(full_cnst_mat.size());
         // convert to column-major storage
         for (size_t i=0; i<nDOF; i++){
-            for (size_t j=0; j<nedges; j++){
+            for (size_t j=0; j<full_cnst_mat.size(); j++){
                 cnst_mat[i*nedges+j] = full_cnst_mat[j][i];
             }
         }

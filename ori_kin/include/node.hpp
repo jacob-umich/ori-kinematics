@@ -12,6 +12,7 @@ namespace Okin{
             vector<Node*> neighbors;
             vector<int> _fixities;
             vector<double> _position;
+            vector<vector<double>> _positionHist;
             Node (JSONObject);
             void printPos();
             void printFix();
