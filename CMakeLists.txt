@@ -23,12 +23,12 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GNU_WARNING_FLAGS}")
 
 # Enable testing
 include(CTest)
-include(findLAPACKE)
+# include(findLAPACKE)
 enable_testing()
 find_package(BLAS)
 find_package(LAPACK)
-find_package(LAPACKE)
-if (NOT (LAPACK_FOUND AND BLAS_FOUND AND LAPACKE_FOUND))
+# find_package(LAPACKE)
+if (NOT (LAPACK_FOUND AND BLAS_FOUND))
 
   add_compile_definitions(BLAS_FOUND=0)
 else ()
