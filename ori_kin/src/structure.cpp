@@ -127,6 +127,7 @@ namespace Okin {
             (*node)->_positionHist.reserve(max_step);
         }
         while (currentStep<=max_step){
+            genConstraints();
             linAlg linlib; 
             vector<double> targetVel = getNextTarVelocity();
             vector<double> vel;
