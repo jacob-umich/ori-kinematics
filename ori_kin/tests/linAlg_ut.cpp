@@ -17,6 +17,20 @@ TEST_CASE(pseudoInv) {
   delete linAlgClass;
 
 }
+TEST_CASE(pseudoInvNGrM) {
+
+  linAlg *linAlgClass;
+  linAlgClass = new linAlg;
+  const int m=2, n=3;
+  vector<double> A{4,-1,7,2,-6,1};
+  vector<double> Ainv_true{0.0474,0.0576,-0.06779,-0.1983,0.2949,0.21186};
+  vector<double> Ainv;
+  Ainv.resize(m*n);
+  linAlgClass->matPseudoInv(m, n, A, Ainv);
+  for (int ii=0;ii<m*n;ii++) ASSERT_NEAR(Ainv[ii],Ainv_true[ii],1e-5);
+  delete linAlgClass;
+
+}
 
 // Test for mat mult
 TEST_CASE(matMult) {
@@ -59,5 +73,6 @@ int main()
   TEST(pseudoInv);
   TEST(matVec);
   TEST(matMult);
+  TEST(pseudoInvNGrM);
   return 0; 
 }
