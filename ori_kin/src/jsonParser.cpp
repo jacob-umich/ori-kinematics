@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <sstream>
+#include <iomanip>
 
 /* implementation from 
 https://kishoreganesh.com/post/writing-a-json-parser-in-cplusplus/*/
@@ -83,6 +84,95 @@ auto JSONNode::setBool(bool b){
 void JSONNode::setNull(){
     type = Type::NULL_TYPE;
 }
+
+
+std::string JSONNode::toString(int indent, bool followingObj, int level){
+  std::string spaceString = std::string((indent*level), ' ');
+  std::string spaceStringOld = std::string((indent*(level-1)), ' ');
+    //sstreams
+  std::string outputString = "";
+  switch (type) {
+  case Type::STRING: {
+    outputString += "\""+*values.s+"\"";
+    break;
+  }
+  case Type::NUMBER: {
+    std::stringstream stream;
+    stream<<std::fixed<<std::setprecision(3)<<values.dValue;
+    outputString += stream.str();
+    break;
+  }
+  case Type::BOOLEAN: {
+    outputString +=  (values.bValue ? "true" : "false");
+    break;
+  }
+  case Type::NULL_TYPE: {
+    outputString +=  "null";
+    break;
+
+  }
+  case Type::LIST: {
+    std::string contStr ;
+    bool followObj=false ;
+    if((*values.list)[0]->type==Type::STRING||(*values.list)[0]->type==Type::BOOLEAN||(*values.list)[0]->type==Type::NUMBER){
+      contStr="";
+      followObj=true;
+    }else{
+      contStr="\n";
+      followObj=false;
+
+    }
+    
+    outputString += (followingObj? "":spaceStringOld)+ "["+contStr;
+    size_t index = 0;
+    for (auto node : (*values.list)) {
+      outputString += node->toString(4,followObj,level+1);
+      if(node->type==Type::STRING||node->type==Type::BOOLEAN||node->type==Type::NUMBER){
+        contStr = ",";
+      } else{
+        contStr = ",\n";
+      }
+      if (index < (*values.list).size() - 1) {
+        outputString += contStr;
+      }
+      index++;
+    }\
+    if(contStr==","){
+      contStr = "";
+    } else{
+      contStr = "\n"+ spaceStringOld;
+    }
+    outputString += contStr + "]";
+    break;
+  }
+  case Type::OBJECT: {
+    outputString += (followingObj? "":spaceStringOld)+ "{\n";
+
+    for (JSONObject::iterator i = (*values.object).begin();
+          i != (*values.object).end(); i++) {
+      outputString += spaceString + "\"" + i->first + "\"" + ":";
+      outputString += i->second->toString(4,true,level+1);
+      JSONObject::iterator next = i;
+      next++;
+      if ((next) != (*values.object).end()) {
+        outputString += ",\n";
+      }else{
+        outputString +=  "\n";
+      }
+    }
+    outputString += spaceStringOld + "}";
+    break;
+  }
+  default:{
+    break;
+  }
+  
+  }
+  return outputString;
+}
+
+
+
 
 Tokenizer::Tokenizer(std::string filename){
     file.open(filename, std::ios::in|std::ios::binary);
