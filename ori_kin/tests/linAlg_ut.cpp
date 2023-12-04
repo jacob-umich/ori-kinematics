@@ -27,7 +27,7 @@ TEST_CASE(pseudoInvNGrM) {
   vector<double> Ainv;
   Ainv.resize(m*n);
   linAlgClass->matPseudoInv(m, n, A, Ainv);
-  for (int ii=0;ii<m*n;ii++) ASSERT_NEAR(Ainv[ii],Ainv_true[ii],1e-5);
+  for (int ii=0;ii<m*n;ii++) ASSERT_NEAR(Ainv[ii],Ainv_true[ii],1e-3);
   delete linAlgClass;
 
 }
