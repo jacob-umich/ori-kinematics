@@ -1,6 +1,8 @@
 #include "structure.hpp"
 #include "node.hpp"
 #include "edge.hpp"
+#include "linAlg.hpp"
+#include "lapacke.h"
 #include <regex>
 #include <string>
 #include <iostream>
