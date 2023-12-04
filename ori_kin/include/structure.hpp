@@ -47,6 +47,7 @@ namespace Okin{
             //generate constraints
             void genConstraints();
             vector<double> getNextTarVelocity();
+            void save(std::string outputFile);
 
     };
 

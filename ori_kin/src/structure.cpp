@@ -4,6 +4,7 @@
 #include <regex>
 #include <string>
 #include <iostream>
+#include <fstream>
 
 
 namespace Okin {
@@ -110,6 +111,14 @@ namespace Okin {
         }
         currentStep++;
         return output;
+    }
+    void Structure::save(std::string filename){
+        std::string output = root->toString(4,false,1);
+        std::ofstream outFile;
+        outFile.open(filename,std::ios::out | std::ios::binary);
+        outFile<<output;
+        outFile.close();
+
     }
 
 
