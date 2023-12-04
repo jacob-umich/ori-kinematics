@@ -12,12 +12,7 @@ void normalize(std::vector<double>& a){
 
 std::vector<double> project(std::vector<double>a,std::vector<double>j){
     std::vector<double> ret;
-<<<<<<< HEAD
     double dot=0;
-=======
-    double dot;
-    double dotSq;
->>>>>>> ec7d5c56b883d08f43657f9618da5c5fdb0f6ee5
     ret.resize(3);
     normalize(j);
     normalize(a);
