@@ -4,7 +4,7 @@ void normalize(std::vector<double>& );
 std::vector<double> project(std::vector<double>,std::vector<double>);
 
 TEST_CASE(velocityVectorInit){
-    Okin::Structure tester("testMesh.json");
+    Okin::Structure tester("testMesh.json",0.1);
     JSONParser parser("testMesh.json");
     parser.parse();
     Okin::tVelocity testvel (parser.root->returnObject()["target_velocities"]->returnList()[0]->returnObject(),tester);
@@ -14,7 +14,7 @@ TEST_CASE(velocityVectorInit){
     assert(testvel.type=="vector");
 }
 TEST_CASE(velocityAngleInit){
-    Okin::Structure tester("testMesh.json");
+    Okin::Structure tester("testMesh.json",0.1);
     JSONParser parser("testMesh.json");
     parser.parse();
     Okin::tVelocity testvel (parser.root->returnObject()["target_velocities"]->returnList()[1]->returnObject(),tester);
@@ -47,7 +47,7 @@ TEST_CASE(projectTest){
     
 }
 TEST_CASE(updateAngle){
-    Okin::Structure tester("testMesh.json");
+    Okin::Structure tester("testMesh.json",0.1);
     JSONParser parser("testMesh.json");
     parser.parse();
     Okin::tVelocity testvel (parser.root->returnObject()["target_velocities"]->returnList()[1]->returnObject(),tester);
@@ -80,7 +80,7 @@ TEST_CASE(updateAngle){
 
 }
 TEST_CASE(strucutreVelAccess){
-    Okin::Structure tester("testMesh.json");
+    Okin::Structure tester("testMesh.json",0.1);
     vector<double> ret;
     ret.resize(3);
     ret = tester.getNextTarVelocity();

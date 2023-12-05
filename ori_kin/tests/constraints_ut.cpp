@@ -3,7 +3,7 @@
 #include "unit_test_framework.hpp"
 // Test if number of rows is equal to fixities+number of edges
 TEST_CASE(checkCols) {
-  Okin::Structure tester("testMesh.json");
+  Okin::Structure tester("testMesh.json",0.1);
   tester.genConstraints();
   size_t nBodies = tester.getNBody();
   size_t nedges=0;
@@ -18,7 +18,7 @@ TEST_CASE(checkCols) {
 
 // Test to see if first edge is correctly calculated
 TEST_CASE(checkRow) {
-  Okin::Structure tester("testMesh.json");
+  Okin::Structure tester("testMesh.json",0.1);
   tester.genConstraints();
   size_t nBodies = tester.getNBody();
   size_t nedges=0;

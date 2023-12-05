@@ -10,7 +10,7 @@
 
 
 namespace Okin {
-    Structure::Structure(const std::string inputFile, int size): parser(inputFile), eulerStepSize(size){
+    Structure::Structure(const std::string inputFile, double size): parser(inputFile), eulerStepSize(size){
         currentStep = 0;
         parser.parse();
         root = parser.root;
