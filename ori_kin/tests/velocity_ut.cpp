@@ -82,18 +82,18 @@ TEST_CASE(updateAngle){
 TEST_CASE(strucutreVelAccess){
     Okin::Structure tester("testMesh.json",0.1);
     vector<double> ret;
-    ret.resize(3);
+    ret.resize(tester.coordinate);
     ret = tester.getNextTarVelocity();
-    ASSERT_NEAR(ret[0],10,1e-2);
-    ASSERT_NEAR(ret[1],0,1e-2);
-    ASSERT_NEAR(ret[2],0,1e-2);
+    ASSERT_NEAR(ret[24],10,1e-2);
+    ASSERT_NEAR(ret[25],0,1e-2);
+    ASSERT_NEAR(ret[26],0,1e-2);
     for(int i=0;i<9;i++){
         ret= tester.getNextTarVelocity();
     }
     ret = tester.getNextTarVelocity();
-    ASSERT_NEAR(ret[0],0,1e-2);
-    ASSERT_NEAR(ret[1],0,1e-2);
-    ASSERT_NEAR(ret[2],1,1e-2);
+    ASSERT_NEAR(ret[36],0,1e-2);
+    ASSERT_NEAR(ret[37],0,1e-2);
+    ASSERT_NEAR(ret[38],1,1e-2);
 }
 
 int main(){

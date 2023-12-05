@@ -28,12 +28,12 @@ namespace Okin{
             int _nNodes;
         private:
             size_t n_bodies;
-            int coordinate;
             int n_const;
             int currentStep;
             double eulerStepSize;
 
         public:
+            int coordinate;
             JSONParser parser;
             std::shared_ptr<JSONNode> root;
             JSONObject *jStructure;

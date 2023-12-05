@@ -49,7 +49,7 @@ TEST_CASE(matMult) {
   delete linAlgClass;
 
 }
-#endif
+
 
 // Test for mat vec mult
 TEST_CASE(matVec) {
@@ -67,7 +67,7 @@ TEST_CASE(matVec) {
   delete linAlgClass;
 
 }
-
+#endif
 int main()
 {
   // Run the unit tests. If a test fails, the program will print failure info
@@ -76,7 +76,7 @@ int main()
   TEST(pseudoInv);
   TEST(matMult);
   TEST(pseudoInvNGrM);
-  #endif
   TEST(matVec);
+  #endif
   return 0; 
 }

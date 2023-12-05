@@ -162,6 +162,7 @@ namespace Okin {
                 }
 
             }
+            std::cout<<vel[38]<<std::endl;  
             if(method=="euler"){
                 eulerIntegrate(vel);
             }
