@@ -29,7 +29,6 @@ namespace Okin{
         private:
             size_t n_bodies;
             int coordinate;
-            vector<double> cnst_mat;
             int n_const;
             int currentStep;
             double eulerStepSize;
@@ -41,6 +40,7 @@ namespace Okin{
             Structure(std::string inputFile);
             vector<pair<pair<int,int>,pair<int,int>>> _joints;
             int max_step;
+            vector<double> cnst_mat;
             Node * getNode(int);
             Body * getBody(int);
             pair<pair<int,int>,pair<int,int>> getJoint(int);
