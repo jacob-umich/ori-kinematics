@@ -130,12 +130,19 @@ TEST_CASE(jointDefined){
 
 TEST_CASE(compareJsonAddr){
     Okin::Structure tester("testMesh.json");
-    assert(tester.parser.root==tester.root);
-    JSONObject* obj1 = tester.parser.root->returnObject();
-    JSONObject* obj2 = tester.root->returnObject();
-    JSONObject* obj3 = tester.root->returnObject();
+    assert(tester.parser.root.get()==tester.root.get());
+
+    JSONObject* obj1 = tester.parser.root->returnObjectPtr();
+    JSONObject* obj2 = tester.root->returnObjectPtr();
+    JSONObject* obj3 = tester.root->returnObjectPtr();
     assert(obj1==obj2);
     assert(obj1==obj3);
+    assert(tester.jStructure=obj3);
+    JSONList * bodies = (*obj2)["bodies"]->returnListPtr();
+    JSONObject* body1 = (*bodies)[0]->returnObjectPtr();
+    JSONList * nodes = (*body1)["nodes"]->returnListPtr();
+    JSONObject * node1 = (*nodes)[0]->returnObjectPtr();
+    assert(tester.getNode(0)->jNode==node1);
 }
 
 

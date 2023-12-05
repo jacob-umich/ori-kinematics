@@ -1,6 +1,6 @@
 {
     "type":"structure",
-    "name":"tester",
+    "name":"cube",
     "bodies":[
         {
             "type":"body",

@@ -50,16 +50,30 @@
         }
     ],
     "joints":[
-        {"bodies":[0,1],"nodes":[5,4]},
-        {"bodies":[0,1],"nodes":[6,7]}
+        {"id":0,"bodies":[0,1],"nodes":[5,4]},
+        {"id":1,"bodies":[0,1],"nodes":[6,7]}
     ],
     "target_velocities":[
         {
+            "type":"vector",
             "start_step":0,
             "end_step":10,
-            "node_id":0,
-            "body_id":1,
+            "target_node":0,
+            "target_body":1,
             "velocity":[10,0,0],
+            "step_size":0.001
+        },
+        {
+            "type":"angular",
+            "start_step":10,
+            "end_step":100,
+            "joint_1":0,
+            "joint_2":1,
+            "ref_node":4,
+            "ref_body":0,
+            "target_node":5,
+            "target_body":1,
+            "ratio":0,
             "step_size":0.001
         }
     ]

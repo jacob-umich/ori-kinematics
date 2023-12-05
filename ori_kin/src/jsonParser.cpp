@@ -17,7 +17,13 @@ bool to_bool(std::string str) {
     return b;
 }
 
-JSONObject* JSONNode::returnObject(){
+JSONObject JSONNode::returnObject(){
+    if(type==Type::OBJECT){
+        return *values.object;
+    }
+    throw std::logic_error("Improper return");
+}
+JSONObject* JSONNode::returnObjectPtr(){
     if(type==Type::OBJECT){
         return values.object;
     }
@@ -29,7 +35,13 @@ void JSONNode::setObject(JSONObject *obj){
 }
 
 
-JSONList* JSONNode::returnList(){
+JSONList JSONNode::returnList(){
+    if(type==Type::LIST){
+        return *values.list;
+    }
+    throw std::logic_error("Improper return");
+}
+JSONList *JSONNode::returnListPtr(){
     if(type==Type::LIST){
         return values.list;
     }
@@ -41,7 +53,13 @@ void JSONNode::setList(JSONList *list){
 }
 
 
-std::string* JSONNode::returnString(){
+std::string JSONNode::returnString(){
+    if(type==Type::STRING){
+        return *values.s;
+    }
+    throw std::logic_error("Improper return");
+}
+std::string* JSONNode::returnStringPtr(){
     if(type==Type::STRING){
         return values.s;
     }

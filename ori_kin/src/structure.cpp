@@ -15,13 +15,14 @@ namespace Okin {
         currentStep = 0;
         parser.parse();
         root = parser.root;
-        JSONObject jStructure = root->returnObject();
-        JSONList jBodies =  jStructure["bodies"]->returnList();
+        jStructure = root->returnObjectPtr();
+        JSONList jBodies =  (*jStructure)["bodies"]->returnList();
+        JSONList* jBodiesPtr =  (*jStructure)["bodies"]->returnListPtr();
         size_t numBodies =jBodies.size();
 
         for (size_t i=0;i<numBodies;i++){
-            JSONObject jBody=jBodies[i]->returnObject();
-            Body *newBody = new Body(jBody);
+            JSONObject* jBodyPtr=(*jBodiesPtr)[i]->returnObjectPtr();
+            Body *newBody = new Body(jBodyPtr);
             _bodies.push_back(newBody);
             for (auto node=newBody->_nodes.begin();node!=newBody->_nodes.end();node++){
                 _nodes.push_back(*node);
@@ -32,7 +33,7 @@ namespace Okin {
         }
         coordinate = 0;
         int idg= 0;
-        JSONList jJoints =  jStructure["joints"]->returnList();
+        JSONList jJoints =  (*jStructure)["joints"]->returnList();
         for (auto body=_bodies.begin();body!=_bodies.end();body++){
             for (auto node=(*body)->_nodes.begin();node!=(*body)->_nodes.end();node++){
                 if (!(*node)->coordinated){
@@ -42,7 +43,7 @@ namespace Okin {
                     (*node)->coordinates[2]=coordinate++;
                     (*node)->coordinated=true;
                     (*node)->idg=idg++;
-                    // (*node)->updateJSON();
+                    (*node)->updateJSON();
 
                 }
             }
@@ -57,7 +58,7 @@ namespace Okin {
                         _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[nodeNumLocal]->coordinates =(*body)->_nodes[nodeNumCopy]->coordinates ;
                         _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[nodeNumLocal]->idg =(*body)->_nodes[nodeNumCopy]->idg ;
                         _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[nodeNumLocal]->coordinated = true;
-                        // _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[nodeNumLocal]->updateJSON();
+                        _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[nodeNumLocal]->updateJSON();
 
                     }
                 }
@@ -66,7 +67,7 @@ namespace Okin {
 
         std::shared_ptr<JSONNode> ndof = std::make_shared<JSONNode>();
         ndof->setNumber(coordinate);
-        jStructure.insert(std::pair<std::string,std::shared_ptr<JSONNode>>("n_dof",ndof));
+        (*jStructure).insert(std::pair<std::string,std::shared_ptr<JSONNode>>("n_dof",ndof));
         // save joints for later
         _joints.resize(jJoints.size());
         for (auto jObj=jJoints.begin();jObj!=jJoints.end();jObj++){
@@ -81,7 +82,7 @@ namespace Okin {
             _joints[jointId]=joint;
         }
         
-        JSONList jVelocities =  jStructure["target_velocities"]->returnList();
+        JSONList jVelocities =  (*jStructure)["target_velocities"]->returnList();
         
         max_step=0;
         for (auto vel=jVelocities.begin();vel!=jVelocities.end();vel++){
@@ -200,7 +201,7 @@ namespace Okin {
         }
         std::shared_ptr<JSONNode> histNode = std::make_shared<JSONNode>();
         histNode->setList(jhistory);
-        root->returnObject().insert(std::pair<std::string,std::shared_ptr<JSONNode>>("history",histNode));
+        (*root->returnObjectPtr()).insert(std::pair<std::string,std::shared_ptr<JSONNode>>("history",histNode));
         std::string output = root->toString(4,false,1);
         std::ofstream outFile;
         outFile.open(filename,std::ios::out | std::ios::binary);

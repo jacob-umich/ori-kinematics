@@ -25,9 +25,12 @@ class JSONNode {
         } values;
         Type type;
 
-        JSONObject* returnObject();
-        JSONList* returnList();
-        std::string* returnString();
+        JSONObject returnObject();
+        JSONObject * returnObjectPtr();
+        JSONList returnList();
+        JSONList *returnListPtr();
+        std::string returnString();
+        std::string *returnStringPtr();
         double returnNumber();
         int returnInt();
         bool returnBool();

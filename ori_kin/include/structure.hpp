@@ -37,7 +37,7 @@ namespace Okin{
         public:
             JSONParser parser;
             std::shared_ptr<JSONNode> root;
-            JSONObject jStructure;
+            JSONObject *jStructure;
             Structure(std::string inputFile);
             vector<pair<pair<int,int>,pair<int,int>>> _joints;
             int max_step;
