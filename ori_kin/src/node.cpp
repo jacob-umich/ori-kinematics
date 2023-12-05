@@ -65,6 +65,7 @@ namespace Okin
 
         std::shared_ptr<JSONNode> jcoords = std::make_shared<JSONNode>();
         jcoords->setList(coordList);
+        (*jNode)["dof"]=jcoords;
 
     }
 } // namespace Okin

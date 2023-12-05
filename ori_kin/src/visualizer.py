@@ -67,7 +67,7 @@ if __name__ == "__main__":
         bpy.app.binary_path = blender_bin
     else:
         print("Unable to find blender!")    
-    with open('example/cube output.json',"r") as f:
+    with open('cube_out.json',"r") as f:
         data = json.load(f)
 
     ndof = data['n_dof']
@@ -77,8 +77,8 @@ if __name__ == "__main__":
     id = []
     for body in data['bodies']:
         for node in body['nodes']:
-            nodes[node['idg']]=node['pos']
-            dof[node['idg']]=node['dof']
+            nodes[int(node['idg'])]=node['pos']
+            dof[int(node['idg'])]=node['dof']
         for face in body['faces']:
             newface = []
             for node in face:
