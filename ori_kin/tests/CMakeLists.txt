@@ -42,6 +42,7 @@ target_include_directories(velocity_ut PUBLIC
 target_include_directories(simulate_ut PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
     $<INSTALL_INTERFACE:include>
+)
 target_include_directories(linAlg_ut PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
   $<INSTALL_INTERFACE:include>

@@ -41,6 +41,7 @@ namespace Okin
                 }
             }
 	    }
+        n_const=int(nedges+nFixities);
         cnst_mat.resize((nedges+nFixities)*nDOF);
         // convert to column-major storage
         for (size_t i=0; i<nDOF; i++){

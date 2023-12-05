@@ -147,7 +147,7 @@ namespace Okin {
             vector<double> projector;
             vector<double> pinv;
             projector.resize(coordinate*coordinate);
-            pinv.resize(coordinate,n_const);
+            pinv.resize(coordinate*n_const);
             vel.resize(coordinate);
             linlib.matPseudoInv(n_const,coordinate,cnst_mat,pinv);
             linlib.matMult(coordinate,coordinate,n_const,pinv,cnst_mat,projector);
