@@ -78,7 +78,7 @@ if __name__ == "__main__":
     for body in data['bodies']:
         for node in body['nodes']:
             nodes[int(node['idg'])]=node['pos']
-            dof[int(node['idg'])]=node['dof']
+            dof[int(node['idg'])]=[int(node['dof'][i])for i in range(3)]
         for face in body['faces']:
             newface = []
             for node in face:
@@ -86,10 +86,15 @@ if __name__ == "__main__":
                 cond = True
                 while cond:
                     if(node==body['nodes'][iter]['id']):
-                        newface.append(body['nodes'][iter]['idg'])
+                        newface.append(int(body['nodes'][iter]['idg']))
                         cond=False
                     iter+=1
             faces.append(newface)
+    max_step = 0
+    for vel in data['target_velocities']:
+        if max_step<=vel["end_step"]:
+            max_step=int(vel["end_step"])
+        
 
     history = data['history']
     name = data['name']
@@ -99,8 +104,8 @@ if __name__ == "__main__":
     outpath = Path(__file__)
 
     create_animation(mesh_data,history,dof)
-    bpy.context.scene.frame_end=100
-    bpy.context.scene.render.filepath = str(Path.cwd().joinpath("example/out.mp4").resolve())
+    bpy.context.scene.frame_end=max_step
+    bpy.context.scene.render.filepath = str(Path.cwd().joinpath("build/example/out.mp4").resolve())
     bpy.context.scene.render.image_settings.file_format = "FFMPEG"
     bpy.ops.render.render(animation = True)
 
