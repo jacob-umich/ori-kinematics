@@ -17,37 +17,37 @@ bool to_bool(std::string str) {
     return b;
 }
 
-JSONObject JSONNode::returnObject(){
+JSONObject* JSONNode::returnObject(){
     if(type==Type::OBJECT){
-        return *values.object;
+        return values.object;
     }
     throw std::logic_error("Improper return");
 }
-auto JSONNode::setObject(JSONObject *obj){
+void JSONNode::setObject(JSONObject *obj){
     this->values.object = obj;
     type=Type::OBJECT;
 }
 
 
-JSONList JSONNode::returnList(){
+JSONList* JSONNode::returnList(){
     if(type==Type::LIST){
-        return *values.list;
+        return values.list;
     }
     throw std::logic_error("Improper return");
 }
-auto JSONNode::setList(JSONList *list){
+void JSONNode::setList(JSONList *list){
     this->values.list = list;
     type=Type::LIST;
 }
 
 
-std::string JSONNode::returnString(){
+std::string* JSONNode::returnString(){
     if(type==Type::STRING){
-        return *values.s;
+        return values.s;
     }
     throw std::logic_error("Improper return");
 }
-auto JSONNode::setString(std::string *s){
+void JSONNode::setString(std::string *s){
     this->values.s = s;
     type=Type::STRING;
 }
@@ -65,7 +65,7 @@ int JSONNode::returnInt(){
     }
     throw std::logic_error("Improper return");
 }
-auto JSONNode::setNumber(double d){
+void JSONNode::setNumber(double d){
     this->values.dValue = d;
     type=Type::NUMBER;
 }
@@ -77,7 +77,7 @@ bool JSONNode::returnBool(){
     }
     throw std::logic_error("Improper return");
 }
-auto JSONNode::setBool(bool b){
+void JSONNode::setBool(bool b){
     this->values.bValue = b;
     type=Type::BOOLEAN;
 }

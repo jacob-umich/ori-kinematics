@@ -42,7 +42,7 @@ namespace Okin {
                     (*node)->coordinates[2]=coordinate++;
                     (*node)->coordinated=true;
                     (*node)->idg=idg++;
-                    (*node)->updateJSON();
+                    // (*node)->updateJSON();
 
                 }
             }
@@ -57,7 +57,7 @@ namespace Okin {
                         _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[nodeNumLocal]->coordinates =(*body)->_nodes[nodeNumCopy]->coordinates ;
                         _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[nodeNumLocal]->idg =(*body)->_nodes[nodeNumCopy]->idg ;
                         _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[nodeNumLocal]->coordinated = true;
-                        _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[nodeNumLocal]->updateJSON();
+                        // _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[nodeNumLocal]->updateJSON();
 
                     }
                 }
@@ -182,7 +182,25 @@ namespace Okin {
             output[(*node)->coordinates[2]]=(*node)->_positionHist[i][2];
         }
         return output;
+    }
+
     void Structure::save(std::string filename){
+        JSONList *jhistory=new JSONList();
+        for(int i=0;i<max_step;i++){
+            vector<double> output = getSimStep(i);
+            JSONList *jOutput=new JSONList();
+            for(auto pos=output.begin();pos!=output.end();pos++){
+                std::shared_ptr<JSONNode> posI = std::make_shared<JSONNode>();
+                posI->setNumber(*pos);
+                (*jOutput).push_back(posI);
+            }
+            std::shared_ptr<JSONNode> listNode = std::make_shared<JSONNode>();
+            listNode->setList(jOutput);
+            jhistory->push_back(listNode);
+        }
+        std::shared_ptr<JSONNode> histNode = std::make_shared<JSONNode>();
+        histNode->setList(jhistory);
+        root->returnObject().insert(std::pair<std::string,std::shared_ptr<JSONNode>>("history",histNode));
         std::string output = root->toString(4,false,1);
         std::ofstream outFile;
         outFile.open(filename,std::ios::out | std::ios::binary);

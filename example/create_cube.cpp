@@ -3,6 +3,10 @@
 int main(){
 
     Okin::Structure cube {"./cube.json"};
-    cube.genConstraints();
+    cube.simulate("euler");
+    cube.save("cube_out.json");
+
+
+
     return 0;
 }

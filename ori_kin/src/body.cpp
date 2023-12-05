@@ -26,7 +26,7 @@ namespace Okin{
 
         for (size_t i=0;i<numNodes;i++){
             JSONObject jNode=jNodes[i]->returnObject();
-            Node *newNode=new Node(jNode);
+            Node *newNode=new Node(&jNode);
             _nodes.push_back(newNode);
         }
         size_t numMeshedNodes = 0;

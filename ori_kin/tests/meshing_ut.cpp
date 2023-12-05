@@ -128,6 +128,16 @@ TEST_CASE(jointDefined){
     assert(tester.getJoint(1).second.second==7);
 }
 
+TEST_CASE(compareJsonAddr){
+    Okin::Structure tester("testMesh.json");
+    assert(tester.parser.root==tester.root);
+    JSONObject* obj1 = tester.parser.root->returnObject();
+    JSONObject* obj2 = tester.root->returnObject();
+    JSONObject* obj3 = tester.root->returnObject();
+    assert(obj1==obj2);
+    assert(obj1==obj3);
+}
+
 
 
 // verify angular velocity
@@ -144,5 +154,6 @@ int main(){
     TEST(bodyInit);
     TEST(allCoordinated);
     TEST(jointDefined);
+    TEST(compareJsonAddr);
     return 0;
 }

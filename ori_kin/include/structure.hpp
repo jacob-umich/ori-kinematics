@@ -28,8 +28,6 @@ namespace Okin{
             int _nNodes;
         private:
             size_t n_bodies;
-            JSONParser parser;
-            std::shared_ptr<JSONNode> root;
             int coordinate;
             vector<double> cnst_mat;
             int n_const;
@@ -37,6 +35,9 @@ namespace Okin{
             double eulerStepSize;
 
         public:
+            JSONParser parser;
+            std::shared_ptr<JSONNode> root;
+            JSONObject jStructure;
             Structure(std::string inputFile);
             vector<pair<pair<int,int>,pair<int,int>>> _joints;
             int max_step;
