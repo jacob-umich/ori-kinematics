@@ -158,11 +158,10 @@ namespace Okin {
                     }else{
                         ident=0;
                     }
-                    vel[i]=(ident-projector[j*coordinate+i])*targetVel[j];
+                    vel[i]=vel[i]+(ident-projector[j*coordinate+i])*targetVel[j];
                 }
 
             }
-            std::cout<<vel[38]<<std::endl;  
             if(method=="euler"){
                 eulerIntegrate(vel);
             }
