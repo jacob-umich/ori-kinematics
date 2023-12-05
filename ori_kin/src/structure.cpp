@@ -30,6 +30,7 @@ namespace Okin {
             }
         }
         coordinate = 0;
+        int idg= 0;
         JSONList jJoints =  jStructure["joints"]->returnList();
         for (auto body=_bodies.begin();body!=_bodies.end();body++){
             for (auto node=(*body)->_nodes.begin();node!=(*body)->_nodes.end();node++){
@@ -39,6 +40,7 @@ namespace Okin {
                     (*node)->coordinates[1]=coordinate++;
                     (*node)->coordinates[2]=coordinate++;
                     (*node)->coordinated=true;
+                    (*node)->idg=idg++;
 
                 }
             }
@@ -51,6 +53,7 @@ namespace Okin {
                         int nodeNumLocal = int(joinedNodes[j]->returnNumber());
                         int nodeNumCopy = int(joinedNodes[0]->returnNumber());
                         _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[nodeNumLocal]->coordinates =(*body)->_nodes[nodeNumCopy]->coordinates ;
+                        _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[nodeNumLocal]->idg =(*body)->_nodes[nodeNumCopy]->idg ;
                         _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[nodeNumLocal]->coordinated = true;
 
                     }
