@@ -83,5 +83,5 @@ namespace Okin{
             updateFromAngle();
         }
         return targetVelocity;
-    };
+    }
 }
