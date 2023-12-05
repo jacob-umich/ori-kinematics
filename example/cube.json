@@ -58,9 +58,9 @@
             "type":"vector",
             "start_step":0,
             "end_step":10,
-            "target_node":0,
+            "target_node":5,
             "target_body":1,
-            "velocity":[10,0,0],
+            "velocity":[0,0,10],
             "step_size":0.001
         },
         {

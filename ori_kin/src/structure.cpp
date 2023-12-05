@@ -159,7 +159,7 @@ namespace Okin {
                     }else{
                         ident=0;
                     }
-                    vel[i]=(ident-projector[i*coordinate+j])*targetVel[j];
+                    vel[i]=(ident-projector[j*coordinate+i])*targetVel[j];
                 }
 
             }
