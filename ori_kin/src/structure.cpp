@@ -41,6 +41,7 @@ namespace Okin {
                     (*node)->coordinates[2]=coordinate++;
                     (*node)->coordinated=true;
                     (*node)->idg=idg++;
+                    (*node)->updateJSON();
 
                 }
             }
@@ -55,11 +56,16 @@ namespace Okin {
                         _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[nodeNumLocal]->coordinates =(*body)->_nodes[nodeNumCopy]->coordinates ;
                         _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[nodeNumLocal]->idg =(*body)->_nodes[nodeNumCopy]->idg ;
                         _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[nodeNumLocal]->coordinated = true;
+                        _bodies[int(joinedBodies[j]->returnNumber())]->_nodes[nodeNumLocal]->updateJSON();
 
                     }
                 }
             }
         }
+
+        std::shared_ptr<JSONNode> ndof = std::make_shared<JSONNode>();
+        ndof->setNumber(coordinate);
+        jStructure.insert(std::pair<std::string,std::shared_ptr<JSONNode>>("n_dof",ndof));
         // save joints for later
         _joints.resize(jJoints.size());
         for (auto jObj=jJoints.begin();jObj!=jJoints.end();jObj++){
