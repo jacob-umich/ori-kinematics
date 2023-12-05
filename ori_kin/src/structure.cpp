@@ -112,12 +112,12 @@ namespace Okin {
         return coordinate;
     }
     vector<double> Structure::getNextTarVelocity(){
-        vector<double> output(3,0);
+        vector<double> output(coordinate,0);
         for (auto vel=_tVels.begin();vel!=_tVels.end();vel++){
             if ((*vel)->start<=currentStep &&(*vel)->end>currentStep){
                 vector<double> v=(*vel)->getVelocity();
                 for (int i=0;i<3;i++){
-                    output[i]+=v[i];
+                    output[(*vel)->coords[i]]+=v[i];
                 }
             }
         }

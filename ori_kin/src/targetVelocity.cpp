@@ -43,11 +43,16 @@ namespace Okin{
             joint2 = parent.getBody(parent.getJoint(jVel["joint_2"]->returnInt()).first.first)->_nodes[parent.getJoint(jVel["joint_2"]->returnInt()).second.first];
             targetRatio= jVel["ratio"]->returnNumber();
         } else if (type=="vector"){
+            targetNode = parent.getBody(jVel["target_body"]->returnInt())->_nodes[jVel["target_node"]->returnInt()];
             for(int i=0;i<3;i++){
                 targetVelocity[i] = jVel["velocity"]->returnList()[i]->returnNumber();
             }
         } else{
             throw std::logic_error("Improper velocity");
+        }
+        coords.resize(3);
+        for (int i = 0;i<3;i++){
+            coords[i]=targetNode->coordinates[i];
         }
 
     }

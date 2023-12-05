@@ -104,7 +104,7 @@ if __name__ == "__main__":
     outpath = Path(__file__)
 
     create_animation(mesh_data,history,dof)
-    bpy.context.scene.frame_end=max_step
+    bpy.context.scene.frame_end=200
     bpy.context.scene.render.filepath = str(Path.cwd().joinpath("build/example/out.mp4").resolve())
     bpy.context.scene.render.image_settings.file_format = "FFMPEG"
     bpy.ops.render.render(animation = True)

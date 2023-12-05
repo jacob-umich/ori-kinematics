@@ -20,6 +20,7 @@ namespace Okin{
             double targetRatio;
             Structure& parent;
             std::vector<double> targetVelocity;
+            std::vector<double> coords;
             tVelocity(JSONObject,Structure&);
             void updateFromAngle();
             std::vector<double> getVelocity();
