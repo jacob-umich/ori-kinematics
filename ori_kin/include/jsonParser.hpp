@@ -37,6 +37,8 @@ class JSONNode {
         auto setNumber(double);
         auto setBool(bool);
         void setNull();
+
+        std::string toString(int ,bool,int);
     
 };
 

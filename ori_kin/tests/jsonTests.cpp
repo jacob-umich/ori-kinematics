@@ -73,6 +73,31 @@ TEST_CASE(badParse){
         assert(true);
     }
 }
+TEST_CASE(printJson){
+        JSONParser parser("jsonTest.json");
+        parser.parse();
+        std::string testStr = "{\n\
+    \"baz\":[0.000,1.000,2.000],\n\
+    \"foo\":\"bar\",\n\
+    \"more_objects\":[\n\
+        {\n\
+            \"obj1\":10.000\n\
+        },\n\
+        {\n\
+            \"obj2\":[true,false,{\n\
+                    \"type\":\"sigmoid\"\n\
+                }\n\
+            ]\n\
+        }\n\
+    ]\n\
+}";
+        JSONNode rootNode = *(parser.root);
+        std::string outStr = rootNode.toString(4,false,1);
+        for (size_t i=0;i<outStr.size();i++){
+            assert(outStr[i]==testStr[i]);
+
+        }
+}
 
 int main(){
     TEST(stringParse);
@@ -83,5 +108,6 @@ int main(){
     TEST(falseParse);
     TEST(multiNestParse);
     TEST(badParse);
+    TEST(printJson);
 
 }

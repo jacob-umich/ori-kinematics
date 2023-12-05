@@ -52,6 +52,7 @@ namespace Okin{
             vector<double> getNextTarVelocity();
             void simulate(std::string);
             void eulerIntegrate(vector<double>&);
+            void save(std::string outputFile);
 
     };
 
