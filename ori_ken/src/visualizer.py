@@ -2,6 +2,7 @@ import bpy
 import json
 import shutil
 import numpy as np
+from pathlib import Path
 
 
 
@@ -21,7 +22,11 @@ def update_geometry(motion, mesh_data,dofs):
     # Implement logic to update the geometry based on the kinematic simulation results
     # Example: motion_index, vertex_positions = motion.get_updated_positions()
     for i, vertex in enumerate(mesh_data.vertices):
-        vertex.co = [motion[dofs[i,0]],motion[dofs[i,1]],motion[dofs[i,2]]]
+        vertex.co = [
+            motion[int(dofs[i,0])],
+            motion[int(dofs[i,1])],
+            motion[int(dofs[i,2])]
+            ]
 # Example usage:
 # motion = ...  # Get the motion data from kinematic simulation
 # update_geometry(motion, mesh_data)
@@ -38,7 +43,7 @@ def add_keyframes(mesh_data, motion_index, fcurve_list):
 # fcurve_list = ...   # List of fcurves for each vertex
 # add_keyframes(mesh_data, motion_index, fcurve_list)
 
-def create_animation(mesh_data, motions):
+def create_animation(mesh_data, motions,dofs):
     action = bpy.data.actions.new("MeshAnimation")
     mesh_data.animation_data_create()
     mesh_data.animation_data.action = action
@@ -48,7 +53,7 @@ def create_animation(mesh_data, motions):
         fcurve_list.append(fcurves)
 
     for motion_index, motion in enumerate(motions):
-        update_geometry(motion, mesh_data)
+        update_geometry(motion, mesh_data,dofs)
         add_keyframes(mesh_data, motion_index, fcurve_list)
 # Example usage:
 # motions = ...   # List of motions from kinematic simulation
@@ -62,12 +67,12 @@ if __name__ == "__main__":
         bpy.app.binary_path = blender_bin
     else:
         print("Unable to find blender!")    
-    with open('../../example/cube.json',"r") as f:
+    with open('example/cube output.json',"r") as f:
         data = json.load(f)
 
     ndof = data['n_dof']
-    nodes = np.array((ndof/3,3))
-    dof = np.array((ndof/3,3))
+    nodes = np.zeros((int(ndof/3),3))
+    dof = np.zeros((int(ndof/3),3))
     faces = []
     id = []
     for body in data['bodies']:
@@ -76,9 +81,9 @@ if __name__ == "__main__":
             dof[node['idg']]=node['dof']
         for face in body['faces']:
             newface = []
-            cond = True
-            iter=0
             for node in face:
+                iter=0
+                cond = True
                 while cond:
                     if(node==body['nodes'][iter]['id']):
                         newface.append(body['nodes'][iter]['idg'])
@@ -88,7 +93,14 @@ if __name__ == "__main__":
 
     history = data['history']
     name = data['name']
-    mesh_data,obj = create_mesh(node,None,faces,name)
+    bpy.data.objects['Cube'].select_set(True)
+    bpy.ops.object.delete()
+    mesh_data,obj = create_mesh(nodes.tolist(),[],faces,name)
+    outpath = Path(__file__)
 
-    create_animation(mesh_data,history)
+    create_animation(mesh_data,history,dof)
+    bpy.context.scene.frame_end=100
+    bpy.context.scene.render.filepath = str(Path.cwd().joinpath("example/out.mp4").resolve())
+    bpy.context.scene.render.image_settings.file_format = "FFMPEG"
+    bpy.ops.render.render(animation = True)
 
