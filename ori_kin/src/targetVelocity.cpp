@@ -15,7 +15,7 @@ std::vector<double> project(std::vector<double>a,std::vector<double>j){
     double dot=0;
     ret.resize(3);
     normalize(j);
-    normalize(a);
+    // normalize(a);
     for (int i =0;i<3;i++){
         dot+=a[i]*j[i];
     }
@@ -62,11 +62,11 @@ namespace Okin{
         std::vector<double> c = *joint2-*joint1;
         std::vector<double> d = {0,0,0};
         normalize(c);
+        normalize(a);
+        normalize(b);
         targetVelocity = {a[1]*c[2]-a[2]*c[1],a[2]*c[0]-a[0]*c[2],a[0]*c[1]-a[1]*c[0]};
         double dotOld=0;
         double dotNew=0;
-        normalize(a);
-        normalize(b);
         for (int i =0;i<3;i++){
             d[i]=(targetVelocity[i]/100+a[i]);
         }
@@ -76,13 +76,13 @@ namespace Okin{
             dotNew+=d[i]*b[i];
         }
 
-        // if(abs(targetRatio-dotNew)>abs(targetRatio-dotOld)){
-        //     if((targetRatio-dotNew)*(targetRatio-dotOld)>0){
-        //         for (int i =0;i<3;i++){
-        //             targetVelocity[i]=-targetVelocity[i];
-        //         }
-        //     }
-        // }
+        if(abs(targetRatio-dotNew)>abs(targetRatio-dotOld)){
+            if((targetRatio-dotNew)*(targetRatio-dotOld)>0){
+                for (int i =0;i<3;i++){
+                    targetVelocity[i]=-targetVelocity[i];
+                }
+            }
+        }
 
         if(abs(targetRatio-dotOld)<1e-3){
             targetVelocity={0,0,0};
