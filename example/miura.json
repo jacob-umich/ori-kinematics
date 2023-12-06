@@ -9,7 +9,7 @@
                 {"id":0,"pos":[0,0,0]},
                 {"id":1,"pos":[0,1,0]},
                 {"id":2,"pos":[1,1.4,0]},
-                {"id":3,"pos":[1,0.4,0],"fix":[1,1,1]},
+                {"id":3,"pos":[1,0.4,0],"fix":[0,1,1]},
                 {"id":4,"pos":[0,0,0.1]},
                 {"id":5,"pos":[0,1,0.1]},
                 {"id":6,"pos":[1,1.4,0.1]},
@@ -29,7 +29,7 @@
             "type":"body",
             "id":1,
             "nodes":[
-                {"id":0,"pos":[-1,0.4,0],"fix":[0,0,1]},
+                {"id":0,"pos":[-1,0.4,0],"fix":[0,1,1]},
                 {"id":1,"pos":[-1,1.4,0]},
                 {"id":2,"pos":[0,1,0]},
                 {"id":3,"pos":[0,0,0]},
@@ -100,11 +100,19 @@
         {"id":1,"bodies":[0,1,2,3],"nodes":[1,2,7,4]},
         {"id":2,"bodies":[1,2],"nodes":[1,4]},
         {"id":3,"bodies":[0,3],"nodes":[2,7]},
-        {"id":4,"bodies":[2,3],"nodes":[7,4]},
-        {"id":5,"bodies":[2,3],"nodes":[6,5]}
+        {"id":4,"bodies":[2,3],"nodes":[6,5]}
     ],
 
     "target_velocities":[
+        {
+            "type":"vector",
+            "start_step":0,
+            "end_step":250,
+            "target_node":7,
+            "target_body":2,
+            "velocity":[0,0,1],
+            "step_size":0.001
+        },
         {
             "type":"angular",
             "start_step":0,
@@ -122,6 +130,49 @@
             "type":"angular",
             "start_step":0,
             "end_step":250,
+            "joint_1":0,
+            "joint_2":1,
+            "ref_node":3,
+            "ref_body":0,
+            "target_node":1,
+            "target_body":1,
+            "ratio":0,
+            "step_size":0.001
+        },
+        {
+            "type":"angular",
+            "start_step":0,
+            "end_step":250,
+            "joint_1":1,
+            "joint_2":0,
+            "ref_node":0,
+            "ref_body":1,
+            "target_node":2,
+            "target_body":0,
+            "ratio":0,
+            "step_size":0.001
+        },
+        {
+            "type":"angular",
+            "start_step":0,
+            "end_step":250,
+            "joint_1":1,
+            "joint_2":0,
+            "ref_node":0,
+            "ref_body":1,
+            "target_node":3,
+            "target_body":0,
+            "ratio":0,
+            "step_size":0.001
+        },
+
+
+
+
+        {
+            "type":"angular",
+            "start_step":0,
+            "end_step":250,
             "joint_1":1,
             "joint_2":3,
             "ref_node":3,
@@ -135,12 +186,150 @@
             "type":"angular",
             "start_step":0,
             "end_step":250,
-            "joint_1":5,
-            "joint_2":4,
+            "joint_1":1,
+            "joint_2":3,
+            "ref_node":3,
+            "ref_body":0,
+            "target_node":5,
+            "target_body":3,
+            "ratio":0,
+            "step_size":0.001
+        },
+        {
+            "type":"angular",
+            "start_step":0,
+            "end_step":250,
+            "joint_1":3,
+            "joint_2":1,
+            "ref_node":6,
+            "ref_body":3,
+            "target_node":3,
+            "target_body":0,
+            "ratio":0,
+            "step_size":0.001
+        },
+        {
+            "type":"angular",
+            "start_step":0,
+            "end_step":250,
+            "joint_1":3,
+            "joint_2":1,
+            "ref_node":6,
+            "ref_body":3,
+            "target_node":0,
+            "target_body":0,
+            "ratio":0,
+            "step_size":0.001
+        },
+
+
+
+
+        {
+            "type":"angular",
+            "start_step":0,
+            "end_step":250,
+            "joint_1":4,
+            "joint_2":1,
             "ref_node":6,
             "ref_body":3,
             "target_node":5,
             "target_body":2,
+            "ratio":0,
+            "step_size":0.001
+        },
+        {
+            "type":"angular",
+            "start_step":0,
+            "end_step":250,
+            "joint_1":4,
+            "joint_2":1,
+            "ref_node":6,
+            "ref_body":3,
+            "target_node":4,
+            "target_body":2,
+            "ratio":0,
+            "step_size":0.001
+        },
+        {
+            "type":"angular",
+            "start_step":0,
+            "end_step":250,
+            "joint_1":1,
+            "joint_2":4,
+            "ref_node":6,
+            "ref_body":2,
+            "target_node":6,
+            "target_body":3,
+            "ratio":0,
+            "step_size":0.001
+        },
+        {
+            "type":"angular",
+            "start_step":0,
+            "end_step":250,
+            "joint_1":1,
+            "joint_2":4,
+            "ref_node":5,
+            "ref_body":2,
+            "target_node":7,
+            "target_body":3,
+            "ratio":0,
+            "step_size":0.001
+        },
+
+
+
+
+        {
+            "type":"angular",
+            "start_step":0,
+            "end_step":250,
+            "joint_1":1,
+            "joint_2":2,
+            "ref_node":0,
+            "ref_body":1,
+            "target_node":6,
+            "target_body":2,
+            "ratio":0,
+            "step_size":0.001
+        },
+        {
+            "type":"angular",
+            "start_step":0,
+            "end_step":250,
+            "joint_1":1,
+            "joint_2":2,
+            "ref_node":0,
+            "ref_body":1,
+            "target_node":5,
+            "target_body":2,
+            "ratio":0,
+            "step_size":0.001
+        },
+        {
+            "type":"angular",
+            "start_step":0,
+            "end_step":250,
+            "joint_1":2,
+            "joint_2":1,
+            "ref_node":5,
+            "ref_body":2,
+            "target_node":0,
+            "target_body":1,
+            "ratio":0,
+            "step_size":0.001
+        },
+        {
+            "type":"angular",
+            "start_step":0,
+            "end_step":250,
+            "joint_1":2,
+            "joint_2":1,
+            "ref_node":5,
+            "ref_body":2,
+            "target_node":3,
+            "target_body":1,
             "ratio":0,
             "step_size":0.001
         }
