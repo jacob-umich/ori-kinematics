@@ -60,6 +60,7 @@ namespace Okin{
         std::vector<double> a = project(*targetNode-*joint1,*joint2-*joint1);
         std::vector<double> b = project(*refNode-*joint1,*joint2-*joint1);
         std::vector<double> c = *joint2-*joint1;
+        std::vector<double> d = {0,0,0};
         normalize(c);
         targetVelocity = {a[1]*c[2]-a[2]*c[1],a[2]*c[0]-a[0]*c[2],a[0]*c[1]-a[1]*c[0]};
         double dotOld=0;
@@ -67,8 +68,12 @@ namespace Okin{
         normalize(a);
         normalize(b);
         for (int i =0;i<3;i++){
+            d[i]=(targetVelocity[i]/100+a[i]);
+        }
+        normalize(d);
+        for (int i =0;i<3;i++){
             dotOld+=a[i]*b[i];
-            dotNew+=(targetVelocity[i]/100+a[i])*b[i];
+            dotNew+=d[i]*b[i];
         }
 
         if(abs(targetRatio-dotNew)>abs(targetRatio-dotOld)){
