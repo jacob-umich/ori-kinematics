@@ -39,9 +39,9 @@ void linAlg::matPseudoInv(const int m, const int n, vector<double> &A_vec, vecto
     if (info !=0){
     std::cerr<<"Lapack error occured in dgesdd. error code :"<<info<<std::endl;
     }
+    // std::cerr<<"passed SVD"<<std::endl;
 
-
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < std::min(n,m); i++) {
             s[i] = 1.0 / s[i];       
     }
 
@@ -51,6 +51,7 @@ void linAlg::matPseudoInv(const int m, const int n, vector<double> &A_vec, vecto
     //         v[i*n+j]=vt[j*n+i];
     //     }
     // }
+    // std::cerr<<"vT: "<<std::endl;
     // for (int i = 0; i < n; i++) {
     // for (int j = 0; j < n; j++) {
     //     std::cout<<vt[i*n+j]<<" ";}}
@@ -60,12 +61,15 @@ void linAlg::matPseudoInv(const int m, const int n, vector<double> &A_vec, vecto
             suT[i*n+j]=u[j*m+i];
         }
     }
+    // std::cerr<<"uT: "<<std::endl;
     // for (int i = 0; i < m; i++) {
     // for (int j = 0; j < n; j++) {
     //     std::cout<<suT[i*n+j]<<" ";}}
-    //     std::cout<<std::endl;
-    // for (int j = 0; j < n; j++) {
+    // std::cout<<std::endl;
+    // std::cerr<<"sinv: "<<std::endl;
+    // for (int j = 0; j < std::min(n,m); j++) {
     //     std::cout<<s[j]<<" ";}
+    // std::cout<<std::endl;
     //compute the  first multiplication (s^-1)u^T (s^-1 is nxm u^T is mxm) creates nxm
     // here : s is not a vector : it is a diagonal matrix. The ouput must be of size n*n
     for (int i = 0; i<m; i++) {
@@ -88,7 +92,8 @@ void linAlg::matPseudoInv(const int m, const int n, vector<double> &A_vec, vecto
     //     std::cout<<Ainv[i*n+j]<<" ";}}
     // std::cout<<std::endl;
     //assign values to Ainv to output vector
-    for (int i=0; i<n*m; i++) Ainv_vec[i]=Ainv[i];
+    for (int i=0; i<n*m; i++) Ainv_vec[i]=Ainv[i]; 
+    //std::cerr<<Ainv[i]<<std::endl;}
 
     // delete [] u;
     delete [] s;
