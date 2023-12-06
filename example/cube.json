@@ -154,9 +154,9 @@
             "type":"vector",
             "start_step":0,
             "end_step":10,
-            "target_node":5,
-            "target_body":1,
-            "velocity":[0,0,0],
+            "target_node":6,
+            "target_body":2,
+            "velocity":[0,0,1],
             "step_size":0.001
         },
         {
@@ -215,8 +215,8 @@
             "type":"angular",
             "start_step":0,
             "end_step":100,
-            "joint_1":4,
-            "joint_2":5,
+            "joint_1":5,
+            "joint_2":4,
             "ref_node":4,
             "ref_body":1,
             "target_node":5,
