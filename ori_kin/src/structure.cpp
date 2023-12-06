@@ -142,12 +142,9 @@ namespace Okin {
             genConstraints();
             linAlg linlib; 
             vector<double> targetVel = getNextTarVelocity();
-            vector<double> vel;
-            vector<double> projector;
-            vector<double> pinv;
-            projector.resize(coordinate*coordinate);
-            pinv.resize(coordinate*n_const);
-            vel.resize(coordinate);
+            vector<double> vel(coordinate,0.0);
+            vector<double> projector(coordinate*coordinate,0.0);
+            vector<double> pinv(coordinate*n_const,0.0);
             linlib.matPseudoInv(n_const,coordinate,cnst_mat,pinv);
             linlib.matMult(coordinate,coordinate,n_const,pinv,cnst_mat,projector);
             for (int i=0;i<coordinate;i++){

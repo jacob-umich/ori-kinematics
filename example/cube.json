@@ -153,16 +153,16 @@
         {
             "type":"vector",
             "start_step":0,
-            "end_step":10,
+            "end_step":50,
             "target_node":6,
             "target_body":2,
-            "velocity":[0,0,1],
+            "velocity":[0,0,0],
             "step_size":0.001
         },
         {
             "type":"angular",
             "start_step":0,
-            "end_step":100,
+            "end_step":200,
             "joint_1":0,
             "joint_2":1,
             "ref_node":4,
@@ -175,7 +175,7 @@
         {
             "type":"angular",
             "start_step":0,
-            "end_step":100,
+            "end_step":200,
             "joint_1":2,
             "joint_2":0,
             "ref_node":6,
@@ -188,7 +188,7 @@
         {
             "type":"angular",
             "start_step":0,
-            "end_step":100,
+            "end_step":200,
             "joint_1":3,
             "joint_2":2,
             "ref_node":6,
@@ -201,7 +201,7 @@
         {
             "type":"angular",
             "start_step":0,
-            "end_step":100,
+            "end_step":200,
             "joint_1":1,
             "joint_2":3,
             "ref_node":4,
@@ -214,7 +214,33 @@
         {
             "type":"angular",
             "start_step":0,
-            "end_step":100,
+            "end_step":200,
+            "joint_1":4,
+            "joint_2":5,
+            "ref_node":4,
+            "ref_body":1,
+            "target_node":5,
+            "target_body":2,
+            "ratio":-0.9,
+            "step_size":0.001
+        },
+        {
+            "type":"angular",
+            "start_step":0,
+            "end_step":200,
+            "joint_1":4,
+            "joint_2":5,
+            "ref_node":4,
+            "ref_body":1,
+            "target_node":5,
+            "target_body":2,
+            "ratio":0,
+            "step_size":0.001
+        },
+        {
+            "type":"angular",
+            "start_step":0,
+            "end_step":200,
             "joint_1":4,
             "joint_2":5,
             "ref_node":4,
