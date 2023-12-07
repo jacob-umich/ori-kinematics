@@ -106,9 +106,11 @@ int main()
 {
   // Run the unit tests. If a test fails, the program will print failure info
   // and return 1.
-  TEST(linAlgSequential);
-  TEST(make_projection);
-  TEST(rigidEdges);
+  #if BLAS_FOUND
+    TEST(linAlgSequential);
+    TEST(make_projection);
+    TEST(rigidEdges);
+  #endif
   return 0; 
 }
 
