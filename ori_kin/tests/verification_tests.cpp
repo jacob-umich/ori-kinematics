@@ -64,15 +64,15 @@ TEST_CASE(make_projection){
 //}
 //small error in change of edge lengths
 TEST_CASE(rigidEdges) {
-    int nsteps=1;
-    std::cout<<"pass"<<std::endl;
-    Okin::Structure cube("cube.json",0.1);
+    int nsteps=50;
+    Okin::Structure cube("testMesh.json",0.1);
     //cube.simulate("euler");
+    auto firstEdge=cube._edges.begin();
+    double original_length=(*firstEdge)->length;
+    std::cout<<"edge length: "<<original_length<<std::endl;
     //Okin::Edge *edgeOfInt= cube.getEdge(1);
-    std::cout<<"pass"<<std::endl;
     for (int iter=0;iter<=nsteps;iter++){
         cube.genConstraints();
-        std::cout<<"pass1"<<std::endl;
         linAlg linlib; 
         vector<double> targetVel = cube.getNextTarVelocity();
         vector<double> vel(cube.coordinate,0.0);
@@ -80,7 +80,6 @@ TEST_CASE(rigidEdges) {
         vector<double> pinv(cube.coordinate*cube.n_const,0.0);
         linlib.matPseudoInv(cube.n_const,cube.coordinate,cube.cnst_mat,pinv);
         linlib.matMult(cube.coordinate,cube.coordinate,cube.n_const,pinv,cube.cnst_mat,projector);
-        std::cout<<"pass2"<<std::endl;
         for (int i=0;i<cube.coordinate;i++){
             for(int j=0;j<cube.coordinate;j++){
                 int ident;
@@ -92,13 +91,14 @@ TEST_CASE(rigidEdges) {
                 vel[i]=vel[i]+(ident-projector[j*cube.coordinate+i])*targetVel[j];
             }
 
-        }std::cout<<"pass3"<<std::endl;
+        }
         cube.eulerIntegrate(vel);
-        // for(auto iedge=ed._edges.begin();iedge!=ed._edges.end();iedge++){
-        //     (*edge)->updatePos();
-        // }
+        for(auto edge=cube._edges.begin();edge!=cube._edges.end();edge++){
+            (*edge)->updatePos();
+        }
+        std::cout<<original_length-(*firstEdge)->length<<std::endl;
+        assert(original_length-(*firstEdge)->length<original_length);
         //calculate change in edge
-        std::cout<<"updated?"<<std::endl;
         
     }
 }

@@ -23,7 +23,7 @@ namespace Okin{
             int id;
             nodeList _nodes;
             bodyList _bodies;
-            edgeList _edges;
+            //edgeList _edges;
             velList _tVels;
             int _nNodes;
         private:
@@ -35,6 +35,7 @@ namespace Okin{
         public:
             int coordinate;
             int n_const;
+            edgeList _edges;
             JSONParser parser;
             std::shared_ptr<JSONNode> root;
             JSONObject *jStructure;
