@@ -1,1 +1,0 @@
-// test for if angular velocity is orthogonal to current vector
