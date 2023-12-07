@@ -19,14 +19,16 @@ double toSize_t(std::shared_ptr<JSONNode> posNode){
     return size_t(posNode->returnNumber());
 }
 namespace Okin{
-    Body::Body(JSONObject jBody){
+    Body::Body(JSONObject* jBodyPtr){
+        JSONObject jBody= *jBodyPtr;
         _id=int(jBody["id"]->returnNumber());
         JSONList jNodes =  jBody["nodes"]->returnList();
+        JSONList *jNodesPtr =  (*jBodyPtr)["nodes"]->returnListPtr();
         size_t numNodes =jNodes.size();
 
         for (size_t i=0;i<numNodes;i++){
-            JSONObject jNode=jNodes[i]->returnObject();
-            Node *newNode=new Node(jNode);
+            JSONObject *jNodePtr=(*jNodesPtr)[i]->returnObjectPtr();
+            Node *newNode=new Node(jNodePtr);
             _nodes.push_back(newNode);
         }
         size_t numMeshedNodes = 0;

@@ -3,6 +3,7 @@
 #include "unit_test_framework.hpp"
 using namespace std;
 // Test for pseudo inv
+#if BLAS_FOUND
 TEST_CASE(pseudoInv) {
 
   linAlg *linAlgClass;
@@ -49,6 +50,7 @@ TEST_CASE(matMult) {
 
 }
 
+
 // Test for mat vec mult
 TEST_CASE(matVec) {
 
@@ -65,14 +67,16 @@ TEST_CASE(matVec) {
   delete linAlgClass;
 
 }
-
+#endif
 int main()
 {
   // Run the unit tests. If a test fails, the program will print failure info
   // and return 1.
+  #if BLAS_FOUND
   TEST(pseudoInv);
-  TEST(matVec);
   TEST(matMult);
   TEST(pseudoInvNGrM);
+  TEST(matVec);
+  #endif
   return 0; 
 }

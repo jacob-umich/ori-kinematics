@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <sstream>
+#include <iomanip>
 
 /* implementation from 
 https://kishoreganesh.com/post/writing-a-json-parser-in-cplusplus/*/
@@ -22,7 +23,13 @@ JSONObject JSONNode::returnObject(){
     }
     throw std::logic_error("Improper return");
 }
-auto JSONNode::setObject(JSONObject *obj){
+JSONObject* JSONNode::returnObjectPtr(){
+    if(type==Type::OBJECT){
+        return values.object;
+    }
+    throw std::logic_error("Improper return");
+}
+void JSONNode::setObject(JSONObject *obj){
     this->values.object = obj;
     type=Type::OBJECT;
 }
@@ -34,7 +41,13 @@ JSONList JSONNode::returnList(){
     }
     throw std::logic_error("Improper return");
 }
-auto JSONNode::setList(JSONList *list){
+JSONList *JSONNode::returnListPtr(){
+    if(type==Type::LIST){
+        return values.list;
+    }
+    throw std::logic_error("Improper return");
+}
+void JSONNode::setList(JSONList *list){
     this->values.list = list;
     type=Type::LIST;
 }
@@ -46,7 +59,13 @@ std::string JSONNode::returnString(){
     }
     throw std::logic_error("Improper return");
 }
-auto JSONNode::setString(std::string *s){
+std::string* JSONNode::returnStringPtr(){
+    if(type==Type::STRING){
+        return values.s;
+    }
+    throw std::logic_error("Improper return");
+}
+void JSONNode::setString(std::string *s){
     this->values.s = s;
     type=Type::STRING;
 }
@@ -58,7 +77,13 @@ double JSONNode::returnNumber(){
     }
     throw std::logic_error("Improper return");
 }
-auto JSONNode::setNumber(double d){
+int JSONNode::returnInt(){
+    if(type==Type::NUMBER){
+        return int(values.dValue);
+    }
+    throw std::logic_error("Improper return");
+}
+void JSONNode::setNumber(double d){
     this->values.dValue = d;
     type=Type::NUMBER;
 }
@@ -70,13 +95,102 @@ bool JSONNode::returnBool(){
     }
     throw std::logic_error("Improper return");
 }
-auto JSONNode::setBool(bool b){
+void JSONNode::setBool(bool b){
     this->values.bValue = b;
     type=Type::BOOLEAN;
 }
 void JSONNode::setNull(){
     type = Type::NULL_TYPE;
 }
+
+
+std::string JSONNode::toString(int indent, bool followingObj, int level){
+  std::string spaceString = std::string((indent*level), ' ');
+  std::string spaceStringOld = std::string((indent*(level-1)), ' ');
+    //sstreams
+  std::string outputString = "";
+  switch (type) {
+  case Type::STRING: {
+    outputString += "\""+*values.s+"\"";
+    break;
+  }
+  case Type::NUMBER: {
+    std::stringstream stream;
+    stream<<std::fixed<<std::setprecision(3)<<values.dValue;
+    outputString += stream.str();
+    break;
+  }
+  case Type::BOOLEAN: {
+    outputString +=  (values.bValue ? "true" : "false");
+    break;
+  }
+  case Type::NULL_TYPE: {
+    outputString +=  "null";
+    break;
+
+  }
+  case Type::LIST: {
+    std::string contStr ;
+    bool followObj=false ;
+    if((*values.list)[0]->type==Type::STRING||(*values.list)[0]->type==Type::BOOLEAN||(*values.list)[0]->type==Type::NUMBER){
+      contStr="";
+      followObj=true;
+    }else{
+      contStr="\n";
+      followObj=false;
+
+    }
+    
+    outputString += (followingObj? "":spaceStringOld)+ "["+contStr;
+    size_t index = 0;
+    for (auto node : (*values.list)) {
+      outputString += node->toString(4,followObj,level+1);
+      if(node->type==Type::STRING||node->type==Type::BOOLEAN||node->type==Type::NUMBER){
+        contStr = ",";
+      } else{
+        contStr = ",\n";
+      }
+      if (index < (*values.list).size() - 1) {
+        outputString += contStr;
+      }
+      index++;
+    }\
+    if(contStr==","){
+      contStr = "";
+    } else{
+      contStr = "\n"+ spaceStringOld;
+    }
+    outputString += contStr + "]";
+    break;
+  }
+  case Type::OBJECT: {
+    outputString += (followingObj? "":spaceStringOld)+ "{\n";
+
+    for (JSONObject::iterator i = (*values.object).begin();
+          i != (*values.object).end(); i++) {
+      outputString += spaceString + "\"" + i->first + "\"" + ":";
+      outputString += i->second->toString(4,true,level+1);
+      JSONObject::iterator next = i;
+      next++;
+      if ((next) != (*values.object).end()) {
+        outputString += ",\n";
+      }else{
+        outputString +=  "\n";
+      }
+    }
+    outputString += spaceStringOld + "}";
+    break;
+  }
+  default:{
+    break;
+  }
+  
+  }
+  return outputString;
+}
+
+
+
 
 Tokenizer::Tokenizer(std::string filename){
     file.open(filename, std::ios::in|std::ios::binary);

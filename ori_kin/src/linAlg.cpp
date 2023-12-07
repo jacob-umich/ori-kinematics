@@ -10,6 +10,8 @@
 linAlg::linAlg(void) {}
 
 linAlg::~linAlg() {}
+
+using std::vector;
 #if BLAS_FOUND
 
 void linAlg::matPseudoInv(const int m, const int n, vector<double> &A_vec, vector<double> &Ainv_vec){
@@ -37,9 +39,9 @@ void linAlg::matPseudoInv(const int m, const int n, vector<double> &A_vec, vecto
     if (info !=0){
     std::cerr<<"Lapack error occured in dgesdd. error code :"<<info<<std::endl;
     }
+    // std::cerr<<"passed SVD"<<std::endl;
 
-
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < std::min(n,m); i++) {
             s[i] = 1.0 / s[i];       
     }
 
@@ -49,6 +51,7 @@ void linAlg::matPseudoInv(const int m, const int n, vector<double> &A_vec, vecto
     //         v[i*n+j]=vt[j*n+i];
     //     }
     // }
+    // std::cerr<<"vT: "<<std::endl;
     // for (int i = 0; i < n; i++) {
     // for (int j = 0; j < n; j++) {
     //     std::cout<<vt[i*n+j]<<" ";}}
@@ -58,12 +61,15 @@ void linAlg::matPseudoInv(const int m, const int n, vector<double> &A_vec, vecto
             suT[i*n+j]=u[j*m+i];
         }
     }
+    // std::cerr<<"uT: "<<std::endl;
     // for (int i = 0; i < m; i++) {
     // for (int j = 0; j < n; j++) {
     //     std::cout<<suT[i*n+j]<<" ";}}
-    //     std::cout<<std::endl;
-    // for (int j = 0; j < n; j++) {
+    // std::cout<<std::endl;
+    // std::cerr<<"sinv: "<<std::endl;
+    // for (int j = 0; j < std::min(n,m); j++) {
     //     std::cout<<s[j]<<" ";}
+    // std::cout<<std::endl;
     //compute the  first multiplication (s^-1)u^T (s^-1 is nxm u^T is mxm) creates nxm
     // here : s is not a vector : it is a diagonal matrix. The ouput must be of size n*n
     for (int i = 0; i<m; i++) {
@@ -86,7 +92,8 @@ void linAlg::matPseudoInv(const int m, const int n, vector<double> &A_vec, vecto
     //     std::cout<<Ainv[i*n+j]<<" ";}}
     // std::cout<<std::endl;
     //assign values to Ainv to output vector
-    for (int i=0; i<n*m; i++) Ainv_vec[i]=Ainv[i];
+    for (int i=0; i<n*m; i++) Ainv_vec[i]=Ainv[i]; 
+    //std::cerr<<Ainv[i]<<std::endl;}
 
     // delete [] u;
     delete [] s;
@@ -141,14 +148,105 @@ void linAlg::matMult(int m, int n,int k, vector<double> &A_vec, vector<double> &
 }
 }
 
+
+
 void linAlg::matPseudoInv(const int m, const int n, vector<double> &A_vec, vector<double> &Ainv_vec){
     for (int y=0; y<m;y++){
         for (int z=0; z<n; z++){
-            Ainv_vec[y*n+z]=A_vec[y*n+z];
+            Ainv_vec[z*m+y]=A_vec[y*n+z];
         }
     }
 
 }
+
+// this is me trying to compute svd
+
+double sign(double x){
+    if (x<0){
+        return -1;
+    } else {
+        return 1;
+    }
+}
+
+void computeq(int m, int k,vector<double>&a,vector<double>&q){
+    double sumsq=0;
+    for (int i=k;i<m;i++){
+        sumsq+=a[i*m+k]*a[i*m+k];
+    }
+    double mag = sqrt(sumsq);
+    q[0] = a[k*m+k]-sign(a[k*m+k])*mag;
+    for (int i=1;i<(m-k);i++){
+        q[i]=a[i*m+k];
+    }
+    sumsq=0;
+    for (int i=0;i<(m-k);i++){
+        sumsq+=q[i]*q[i];
+    }
+    for (int i=0;i<(m-k);i++){
+        q[i]=q[i]/sumsq;
+    }
+}
+
+void computep(int m, int n, int k,vector<double>&a,vector<double>&p){
+    double sumsq=0;
+    for (int i=k+1;i<n;i++){
+        sumsq+=a[k*m+i]*a[k*m+i];
+    }
+    double mag = sqrt(sumsq);
+    p[0] = a[k*m+k+1]-sign(a[k*m+k+1])*mag;
+for (int i=1;i<(n-k-1);i++){
+        p[i]=a[k*m+i+k+1];
+    }
+    sumsq=0;
+    for (int i=0;i<(n-k-1);i++){
+        sumsq+=p[i]*p[i];
+    }
+    for (int i=0;i<(n-k-1);i++){
+        p[i]=p[i]/sumsq;
+    }
+}
+
+void householderReflect(int m, int n,int k, vector<double>a,vector<double>Q,vector<double>P){
+    vector<double> ident;
+    ident.resize((m-k)*(m-k));
+    Q.resize((m-k)*(m-k));
+    P.resize((n-k-1)*(n-k-1));
+    for (int i=0;i<(m-k);i++){
+        for (int j=0;j<(m-k);j++){
+            if(i==j){
+                ident[i*(m-k)+j]=1;
+            }else{
+                ident[i*(m-k)+j]=0;
+            }
+        }
+        
+    }
+    vector<double> q;
+    vector<double> p;
+    q.resize(m-k);
+    p.resize(n-k-1);
+    computeq(m,k,a,q);
+    computep(m,n,k,a,q);
+    for (int i=0;i<(m-k);i++){
+        for (int j=0;j<(m-k);j++){
+            Q[i*(m-k)+j]=ident[i*(m-k)+j]-2*q[i]*q[j];
+        }
+        
+    }
+    for (int i=0;i<(n-k-1);i++){
+        for (int j=0;j<(n-k-1);j++){
+            P[i*(n-k-1)+j]=ident[i*(n-k-1)+j]-2*p[i]*p[j];
+        }
+        
+    }
+
+}
+
+void step1(vector<double>a){
+    //svd is very complex
+};
+
 #endif
     
 

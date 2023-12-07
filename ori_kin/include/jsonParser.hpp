@@ -14,28 +14,34 @@ using JSONList = std::vector<std::shared_ptr<JSONNode>>;
 
 class JSONNode {
     enum class Type { OBJECT, LIST, STRING, NUMBER, BOOLEAN, NULL_TYPE};
-    union Values{
-    
-        JSONObject *object;
-        JSONList *list;
-        std::string *s;
-        double dValue;
-        bool bValue;
-    } values;
-    Type type;
     public:
+        union Values{
+        
+            JSONObject *object;
+            JSONList *list;
+            std::string *s;
+            double dValue;
+            bool bValue;
+        } values;
+        Type type;
 
         JSONObject returnObject();
+        JSONObject * returnObjectPtr();
         JSONList returnList();
+        JSONList *returnListPtr();
         std::string returnString();
+        std::string *returnStringPtr();
         double returnNumber();
+        int returnInt();
         bool returnBool();
-        auto setObject(JSONObject *);
-        auto setList(JSONList*);
-        auto setString(std::string*);
-        auto setNumber(double);
-        auto setBool(bool);
+        void setObject(JSONObject *);
+        void setList(JSONList*);
+        void setString(std::string*);
+        void setNumber(double);
+        void setBool(bool);
         void setNull();
+
+        std::string toString(int ,bool,int);
     
 };
 

@@ -11,19 +11,21 @@ namespace Okin
     double toI(std::shared_ptr<JSONNode> posNode){
         return int(posNode->returnNumber());
     }
-    Node::Node(JSONObject jNode){
-        JSONList jPos = jNode["pos"]->returnList();
+    Node::Node(JSONObject*jNodeIn): jNode(jNodeIn){
+        JSONList jPos = (*jNode)["pos"]->returnList();
         _position.resize(3);
         _fixities=vector<int> (3,0);
         std::transform(jPos.begin(),jPos.end(),_position.begin(),toDPos);
-        _id = int(jNode["id"]->returnNumber());
-        if (jNode.find("fix") == jNode.end()){
+        _id = int((*jNode)["id"]->returnNumber());
+        if ((*jNode).find("fix") == (*jNode).end()){
             _fixities=std::vector<int>(3,0);
         } else {
-            JSONList jFix = jNode["fix"]->returnList();
+            JSONList jFix = (*jNode)["fix"]->returnList();
             std::transform(jFix.begin(),jFix.end(),_fixities.begin(),toI);
         }
         coordinated=false;
+        _positionHist.resize(1);
+        _positionHist[0]=_position;
 
     }
 
@@ -48,5 +50,22 @@ namespace Okin
     bool Node::operator>(Node j){
         return (j._id<_id);
        
+    }
+    void Node::updateJSON(){
+        std::shared_ptr<JSONNode> jIdg = std::make_shared<JSONNode>();
+        jIdg->setNumber(idg);
+        (*jNode)["idg"]=jIdg;
+
+        JSONList *coordList = new JSONList();
+        for (int i=0;i<3;i++){
+            std::shared_ptr<JSONNode> coordI = std::make_shared<JSONNode>();
+            coordI->setNumber(coordinates[i]);
+            (*coordList).push_back(coordI);
+        }
+
+        std::shared_ptr<JSONNode> jcoords = std::make_shared<JSONNode>();
+        jcoords->setList(coordList);
+        (*jNode)["dof"]=jcoords;
+
     }
 } // namespace Okin

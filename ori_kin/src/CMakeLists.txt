@@ -6,6 +6,7 @@ add_library(ori_kin
   body.cpp
   linAlg.cpp
   constraints.cpp
+  targetVelocity.cpp
 )
 
 
