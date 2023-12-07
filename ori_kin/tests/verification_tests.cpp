@@ -65,7 +65,7 @@ TEST_CASE(make_projection){
 //small error in change of edge lengths
 TEST_CASE(rigidEdges) {
     int nsteps=50;
-    Okin::Structure cube("testMesh.json",0.1);
+    Okin::Structure cube("testMesh.json",0.001);
     //cube.simulate("euler");
     auto firstEdge=cube._edges.begin();
     double original_length=(*firstEdge)->length;
@@ -97,7 +97,7 @@ TEST_CASE(rigidEdges) {
             (*edge)->updatePos();
         }
         std::cout<<original_length-(*firstEdge)->length<<std::endl;
-        assert(original_length-(*firstEdge)->length<original_length);
+        assert(original_length-(*firstEdge)->length<0.001);
         //calculate change in edge
         
     }

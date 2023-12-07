@@ -40,7 +40,7 @@ TEST_CASE(projectTest){
     vector<double> a({8,0,0});
     vector<double> b({0,8,0});
     vector<double> c = project(a,b);
-    ASSERT_NEAR(c[0],1,1e-2);
+    ASSERT_NEAR(c[0],8,1e-2);
     ASSERT_NEAR(c[1],0,1e-2);
     ASSERT_NEAR(c[2],0,1e-2);
 

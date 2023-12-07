@@ -76,13 +76,13 @@ namespace Okin{
             dotNew+=d[i]*b[i];
         }
 
-        // if(abs(targetRatio-dotNew)>abs(targetRatio-dotOld)){
-        //     if((targetRatio-dotNew)*(targetRatio-dotOld)>0){
-        //         for (int i =0;i<3;i++){
-        //             targetVelocity[i]=-targetVelocity[i];
-        //         }
-        //     }
-        // }
+        if(abs(targetRatio-dotNew)>abs(targetRatio-dotOld)){
+            if((targetRatio-dotNew)*(targetRatio-dotOld)>0){
+                for (int i =0;i<3;i++){
+                    targetVelocity[i]=-targetVelocity[i];
+                }
+            }
+        }
 
         if(abs(targetRatio-dotOld)<1e-3){
             targetVelocity={0,0,0};
