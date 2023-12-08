@@ -9,7 +9,6 @@ namespace Okin{
         using edgeList = std::vector<Edge*>;
         protected:
         public:
-            char * name;
             std::vector<std::vector<int>> connectivityLocal;
             int _id;
             nodeList _nodes;
