@@ -84,7 +84,7 @@ namespace Okin{
             }
         }
 
-        if(abs(targetRatio-dotOld)<1e-3){
+        if(abs(targetRatio-dotOld)<1e-4  ){
             targetVelocity={0,0,0};
         }
     }
