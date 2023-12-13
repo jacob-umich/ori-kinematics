@@ -1,0 +1,49 @@
+@startuml
+
+class Node {
+    -position
+    -id
+    -neighbors
+    ~add()
+    ~sub()
+}
+class Edge {
+    -id
+    -nodes
+}
+class Face {
+    -nodes
+    -edges
+    -outward_normal
+    -id
+}
+class Body {
+    -nodes
+    -edges
+    -faces
+    -id
+}
+class Structure {
+    -nodes
+    -edges
+    -faces
+    -bodies
+    -id
+    ~connectBody()
+    ~defineDOF()
+    ~generateConstraints()
+}
+
+Node<--*Edge
+Edge<--*Face
+Face<--*Body
+Node<--*Body
+Node<--*Face
+Edge<--*Body
+
+
+Node<--*Structure
+Edge<--*Structure
+Face<--*Structure
+Body <--*Structure
+@enduml
