@@ -1,0 +1,43 @@
+@startuml
+scale 1600 width
+scale 900 height
+state Structure {
+    Uninitialized --> Initialized: Constructor
+    Initialized --> Uninitialized: Deconstructor
+    Initialized -right-> Simulated: Simulate
+    Simulated-->Simulated: repeat for defined timesteps
+    Uninitialized: the object has not been defined
+
+    state Initialized {
+        [*] ->JSONParser: JSONParser Constructor
+        state JSONParser{
+            FileInMemory -> JSONBodiesDefined: parser.parse()
+            FileInMemory--> JSONTargetVelocitiesDefined: parser.parse()
+
+        }
+        JSONParser --> BodiesDefined: Body Constructor
+        JSONParser --> TargetVelocitiesDefined
+    
+        state BodiesDefined{
+            [*] --> DefineNodes: Define body nodes from\nJSON body object
+            DefineNodes --> NodesConnected: Define Edges
+            DefineNodes --> FacesDefined: Define Faces\nfrom JSON
+        }
+        BodiesDefined --> BodiesDefined: MoreBodies
+        BodiesDefined --> BodiesConnected: Give nodes a coordinate number
+        BodiesConnected: This step will map shared\nnodes to the same coordinate
+        TargetVelocitiesDefined: Define the velocity direction,\nmagnitude, timestep, and\nnumber of steps
+    }
+
+    state Simulated {
+        [*] --> MotionRestricted: Define Constraint Matrix
+        MotionRestricted--> HasAcceptableVelocity: project target velocity
+        HasAcceptableVelocity --> UpdatedPositions: Integrate velocities
+    }
+        ' UpdatedPositions -[hidden]-> OldPositionsStored
+        Simulated --> OldPositionsStored: Store old positions for use later
+        OldPositionsStored --> OldPositionsStored: Access Positions
+        OldPositionsStored --> HistoryStored: Write displacement history to file
+}
+
+@enduml

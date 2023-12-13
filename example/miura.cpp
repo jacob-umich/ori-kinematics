@@ -2,9 +2,9 @@
 
 int main(){
 
-    Okin::Structure cube {"./cube.json",0.01};
+    Okin::Structure cube {"./miura.json",0.01};
     cube.simulate("euler");
-    cube.save("cube_out.json");
+    cube.save("miura_out.json");
 
 
 

@@ -1,0 +1,23 @@
+\begin{thebibliography}{1}
+
+\bibitem{SiggraphContact22}
+Sheldon Andrews, Kenny Erleben, and Zachary Ferguson.
+\newblock Contact and friction simulation for computer graphics.
+\newblock In {\em ACM SIGGRAPH 2022 Courses}, SIGGRAPH '22, New York, NY, USA, 2022. Association for Computing Machinery.
+
+\bibitem{filipov2015toward}
+Evgueni~T Filipov, Tomohiro Tachi, and Glaucio~H Paulino.
+\newblock Toward optimization of stiffness and flexibility of rigid, flat-foldable origami structures.
+\newblock In {\em The 6th International Meeting on Origami in Science, Mathematics and Education}, page 121, 2015.
+
+\bibitem{zhang2021folding}
+Tianhao Zhang and Ken’ichi Kawaguchi.
+\newblock Folding analysis for thick origami with kinematic frame models concerning gravity.
+\newblock {\em Automation in Construction}, 127:103691, 2021.
+
+\bibitem{zhu2022review}
+Yi~Zhu, Mark Schenk, and Evgueni~T Filipov.
+\newblock A review on origami simulations: From kinematics, to mechanics, toward multiphysics.
+\newblock {\em Applied Mechanics Reviews}, 74(3):030801, 2022.
+
+\end{thebibliography}
